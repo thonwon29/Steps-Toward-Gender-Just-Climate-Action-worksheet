@@ -462,19 +462,6 @@
                 </tbody>
             </table>
         </div>
-        
-        <div class="button-container">
-            <div class="download-options">
-                <div class="download-option" id="download-pdf">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Download as PDF</span>
-                </div>
-                <div class="download-option" id="download-word">
-                    <i class="fas fa-file-word"></i>
-                    <span>Download as Word</span>
-                </div>
-            </div>
-        </div>
     </main>
     <!-- Partner Section -->
     <section class="light-section">
@@ -533,11 +520,11 @@
         
         <div class="button-container">
             <div class="download-options">
-                <div class="download-option" id="download-pdf-final">
+                <div class="download-option" id="download-pdf">
                     <i class="fas fa-file-pdf"></i>
                     <span>Download as PDF</span>
                 </div>
-                <div class="download-option" id="download-word-final">
+                <div class="download-option" id="download-word">
                     <i class="fas fa-file-word"></i>
                     <span>Download as Word</span>
                 </div>
@@ -553,16 +540,8 @@
             downloadAsPDF();
         });
         
-        document.getElementById('download-pdf-final').addEventListener('click', function() {
-            downloadAsPDF();
-        });
-        
         // Download Word functionality
         document.getElementById('download-word').addEventListener('click', function() {
-            downloadAsWord();
-        });
-        
-        document.getElementById('download-word-final').addEventListener('click', function() {
             downloadAsWord();
         });
         
@@ -587,8 +566,8 @@
             doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
             doc.rect(0, 0, 210, 30, 'F');
             
-            // Add title in white
-            doc.setTextColor(255, 255, 255);
+            // Add title in BLACK (changed from white)
+            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
             doc.setFontSize(18);
             doc.setFont('helvetica', 'bold');
             doc.text('Steps Toward Gender-Just Climate Action', 105, 20, { align: 'center' });
@@ -619,7 +598,7 @@
             doc.rect(60, 75, 70, 10, 'F');      // Wider second column
             doc.rect(130, 75, 60, 10, 'F');     // Wider third column
             
-            doc.setTextColor(255, 255, 255);
+            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
             doc.text('Area of Shift', 40, 82, { align: 'center' });
             doc.text('My Commitment', 95, 82, { align: 'center' });
             doc.text('Support', 160, 82, { align: 'center' });
@@ -729,39 +708,40 @@
                 doc.text('(No support plan entered)', 135, yPosition);
             }
             
-            // Add new page for partner section if needed
-            if (yPosition > 250) {
-                doc.addPage();
-                yPosition = 30;
-            } else {
-                yPosition += 30;
-            }
+            // Add new page for partner section
+            doc.addPage();
+            yPosition = 30;
             
             // Partner Check-In Section
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text('Partner Check-In', 20, yPosition);
+            doc.text('Optional Partner Check-In', 20, yPosition);
             
-            // Create table for partner check-in
+            // Add description
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
+            doc.text('Find a partner and share at least one action from your worksheet.', 20, yPosition + 10);
+            doc.text('Decide how and when you will check in with each other.', 20, yPosition + 20);
+            
+            // Create table for partner check-in
+            yPosition += 35;
             
             // Table headers with pink background
             doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-            doc.rect(20, yPosition + 10, 40, 10, 'F');      // Narrower first column
-            doc.rect(60, yPosition + 10, 70, 10, 'F');      // Wider second column
-            doc.rect(130, yPosition + 10, 60, 10, 'F');     // Wider third column
+            doc.rect(20, yPosition, 40, 10, 'F');      // Narrower first column
+            doc.rect(60, yPosition, 70, 10, 'F');      // Wider second column
+            doc.rect(130, yPosition, 60, 10, 'F');     // Wider third column
             
-            doc.setTextColor(255, 255, 255);
-            doc.text('Partner\'s Name', 40, yPosition + 17, { align: 'center' });
-            doc.text('Commitment', 95, yPosition + 17, { align: 'center' });
-            doc.text('Check-in Plan', 160, yPosition + 17, { align: 'center' });
+            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
+            doc.text('Partner\'s Name', 40, yPosition + 7, { align: 'center' });
+            doc.text('Commitment', 95, yPosition + 7, { align: 'center' });
+            doc.text('Check-in Plan', 160, yPosition + 7, { align: 'center' });
             
             // Reset text color
             doc.setTextColor(0, 0, 0);
             
             // Table content
-            yPosition += 30;
+            yPosition += 20;
             
             // Partner name
             const partnerName = document.getElementById('partner-name').value;
@@ -795,13 +775,9 @@
                 checkinPlan ? doc.splitTextToSize(checkinPlan, 55).length * 5 + 15 : 25
             );
             
-            // Add new page for reflection section if needed
-            if (yPosition > 250) {
-                doc.addPage();
-                yPosition = 30;
-            } else {
-                yPosition += 20;
-            }
+            // Add new page for reflection section
+            doc.addPage();
+            yPosition = 30;
             
             // Reflection Section
             doc.setFontSize(16);
@@ -835,16 +811,7 @@
                 doc.text('(No reflections entered)', 20, yPosition);
             }
             
-            // Add footer with pink accent
-            const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-                doc.rect(0, 280, 210, 10, 'F');
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(8);
-                doc.text('HeForShe | Gender-Just Climate Action', 105, 287, { align: 'center' });
-            }
+            // Footer removed as requested
             
             // Save the PDF
             doc.save('climate-action-worksheet.pdf');
@@ -876,7 +843,7 @@
                         }
                         .header {
                             background-color: ${pinkColor};
-                            color: #ffffff;
+                            color: #000000; /* Changed from #ffffff */
                             padding: 15px 0;
                             text-align: center;
                             margin-bottom: 20px;
@@ -924,7 +891,7 @@
                         }
                         th {
                             background-color: ${pinkColor};
-                            color: #ffffff;
+                            color: #000000; /* Changed from #ffffff */
                             padding: 10px;
                             text-align: left;
                             font-weight: 600;
@@ -964,17 +931,13 @@
                             position: absolute;
                             left: 0;
                         }
-                        .footer {
-                            background-color: ${pinkColor};
-                            color: #ffffff;
-                            padding: 10px 0;
-                            text-align: center;
-                            font-size: 10pt;
-                            margin-top: 30px;
-                        }
                         .empty-field {
                             color: #6c757d;
                             font-style: italic;
+                        }
+                        /* Page break for partner section */
+                        .page-break {
+                            page-break-before: always;
                         }
                     </style>
                 </head>
@@ -1020,8 +983,10 @@
                         </table>
                     </div>
                     
+                    <div class="page-break"></div>
+                    
                     <div class="section">
-                        <h2 class="section-title">Partner Check-In</h2>
+                        <h2 class="section-title">Optional Partner Check-In</h2>
                         <p>Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
                         <table>
                             <tr>
@@ -1037,6 +1002,8 @@
                         </table>
                     </div>
                     
+                    <div class="page-break"></div>
+                    
                     <div class="section">
                         <h2 class="section-title">Reflection Prompts</h2>
                         <p>Consider these questions to deepen your commitment.</p>
@@ -1047,10 +1014,6 @@
                         </ul>
                         <p><strong>My Reflections:</strong></p>
                         <p>${document.getElementById('reflection-notes').value || '<span class="empty-field">(No reflections entered)</span>'}</p>
-                    </div>
-                    
-                    <div class="footer">
-                        HeForShe | Gender-Just Climate Action
                     </div>
                 </body>
                 </html>
