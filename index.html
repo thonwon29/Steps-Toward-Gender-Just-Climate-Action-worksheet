@@ -203,7 +203,7 @@
         }
         
         textarea.form-control {
-            min-height: 120px;
+            min-height: 150px; /* Increased height */
             resize: vertical;
         }
         
@@ -237,6 +237,22 @@
         
         .custom-table tr:nth-child(even) td {
             background-color: var(--light-gray);
+        }
+        
+        /* Column width adjustments */
+        .custom-table th:first-child,
+        .custom-table td:first-child {
+            width: 20%; /* Narrower first column */
+        }
+        
+        .custom-table th:nth-child(2),
+        .custom-table td:nth-child(2) {
+            width: 40%; /* Wider second column */
+        }
+        
+        .custom-table th:nth-child(3),
+        .custom-table td:nth-child(3) {
+            width: 40%; /* Wider third column */
         }
         
         /* Section Styles */
@@ -338,6 +354,16 @@
             
             .custom-table th, .custom-table td {
                 padding: 10px;
+            }
+            
+            /* Reset column widths for mobile */
+            .custom-table th:first-child,
+            .custom-table td:first-child,
+            .custom-table th:nth-child(2),
+            .custom-table td:nth-child(2),
+            .custom-table th:nth-child(3),
+            .custom-table td:nth-child(3) {
+                width: auto;
             }
             
             .btn-secondary {
@@ -589,13 +615,13 @@
             
             // Table headers with pink background
             doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-            doc.rect(20, 75, 50, 10, 'F');
-            doc.rect(70, 75, 60, 10, 'F');
-            doc.rect(130, 75, 60, 10, 'F');
+            doc.rect(20, 75, 40, 10, 'F');      // Narrower first column
+            doc.rect(60, 75, 70, 10, 'F');      // Wider second column
+            doc.rect(130, 75, 60, 10, 'F');     // Wider third column
             
             doc.setTextColor(255, 255, 255);
-            doc.text('Area of Shift', 45, 82, { align: 'center' });
-            doc.text('My Commitment', 100, 82, { align: 'center' });
+            doc.text('Area of Shift', 40, 82, { align: 'center' });
+            doc.text('My Commitment', 95, 82, { align: 'center' });
             doc.text('Support', 160, 82, { align: 'center' });
             
             // Reset text color
@@ -615,16 +641,16 @@
             // Thinking commitment
             const thinkingCommitment = document.getElementById('thinking-commitment').value;
             if (thinkingCommitment) {
-                const splitCommitment = doc.splitTextToSize(thinkingCommitment, 55);
-                doc.text(splitCommitment, 75, yPosition);
+                const splitCommitment = doc.splitTextToSize(thinkingCommitment, 65); // Wider column
+                doc.text(splitCommitment, 65, yPosition);
             } else {
-                doc.text('(No commitment entered)', 75, yPosition);
+                doc.text('(No commitment entered)', 65, yPosition);
             }
             
             // Thinking support
             const thinkingSupport = document.getElementById('thinking-support').value;
             if (thinkingSupport) {
-                const splitSupport = doc.splitTextToSize(thinkingSupport, 55);
+                const splitSupport = doc.splitTextToSize(thinkingSupport, 55); // Wider column
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
@@ -632,7 +658,7 @@
             
             // Update y position for next row
             yPosition += Math.max(
-                thinkingCommitment ? doc.splitTextToSize(thinkingCommitment, 55).length * 5 + 15 : 25,
+                thinkingCommitment ? doc.splitTextToSize(thinkingCommitment, 65).length * 5 + 15 : 25,
                 thinkingSupport ? doc.splitTextToSize(thinkingSupport, 55).length * 5 + 15 : 25
             );
             
@@ -651,16 +677,16 @@
             // Behavior commitment
             const behaviorCommitment = document.getElementById('behavior-commitment').value;
             if (behaviorCommitment) {
-                const splitCommitment = doc.splitTextToSize(behaviorCommitment, 55);
-                doc.text(splitCommitment, 75, yPosition);
+                const splitCommitment = doc.splitTextToSize(behaviorCommitment, 65); // Wider column
+                doc.text(splitCommitment, 65, yPosition);
             } else {
-                doc.text('(No commitment entered)', 75, yPosition);
+                doc.text('(No commitment entered)', 65, yPosition);
             }
             
             // Behavior support
             const behaviorSupport = document.getElementById('behavior-support').value;
             if (behaviorSupport) {
-                const splitSupport = doc.splitTextToSize(behaviorSupport, 55);
+                const splitSupport = doc.splitTextToSize(behaviorSupport, 55); // Wider column
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
@@ -668,7 +694,7 @@
             
             // Update y position for next row
             yPosition += Math.max(
-                behaviorCommitment ? doc.splitTextToSize(behaviorCommitment, 55).length * 5 + 15 : 25,
+                behaviorCommitment ? doc.splitTextToSize(behaviorCommitment, 65).length * 5 + 15 : 25,
                 behaviorSupport ? doc.splitTextToSize(behaviorSupport, 55).length * 5 + 15 : 25
             );
             
@@ -688,16 +714,16 @@
             // Influence commitment
             const influenceCommitment = document.getElementById('influence-commitment').value;
             if (influenceCommitment) {
-                const splitCommitment = doc.splitTextToSize(influenceCommitment, 55);
-                doc.text(splitCommitment, 75, yPosition);
+                const splitCommitment = doc.splitTextToSize(influenceCommitment, 65); // Wider column
+                doc.text(splitCommitment, 65, yPosition);
             } else {
-                doc.text('(No commitment entered)', 75, yPosition);
+                doc.text('(No commitment entered)', 65, yPosition);
             }
             
             // Influence support
             const influenceSupport = document.getElementById('influence-support').value;
             if (influenceSupport) {
-                const splitSupport = doc.splitTextToSize(influenceSupport, 55);
+                const splitSupport = doc.splitTextToSize(influenceSupport, 55); // Wider column
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
@@ -722,13 +748,13 @@
             
             // Table headers with pink background
             doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-            doc.rect(20, yPosition + 10, 50, 10, 'F');
-            doc.rect(70, yPosition + 10, 60, 10, 'F');
-            doc.rect(130, yPosition + 10, 60, 10, 'F');
+            doc.rect(20, yPosition + 10, 40, 10, 'F');      // Narrower first column
+            doc.rect(60, yPosition + 10, 70, 10, 'F');      // Wider second column
+            doc.rect(130, yPosition + 10, 60, 10, 'F');     // Wider third column
             
             doc.setTextColor(255, 255, 255);
-            doc.text('Partner\'s Name', 45, yPosition + 17, { align: 'center' });
-            doc.text('Commitment', 100, yPosition + 17, { align: 'center' });
+            doc.text('Partner\'s Name', 40, yPosition + 17, { align: 'center' });
+            doc.text('Commitment', 95, yPosition + 17, { align: 'center' });
             doc.text('Check-in Plan', 160, yPosition + 17, { align: 'center' });
             
             // Reset text color
@@ -748,16 +774,16 @@
             // Commitment shared
             const commitmentShared = document.getElementById('commitment-shared').value;
             if (commitmentShared) {
-                const splitCommitment = doc.splitTextToSize(commitmentShared, 55);
-                doc.text(splitCommitment, 75, yPosition);
+                const splitCommitment = doc.splitTextToSize(commitmentShared, 65); // Wider column
+                doc.text(splitCommitment, 65, yPosition);
             } else {
-                doc.text('(No commitment shared)', 75, yPosition);
+                doc.text('(No commitment shared)', 65, yPosition);
             }
             
             // Check-in plan
             const checkinPlan = document.getElementById('checkin-plan').value;
             if (checkinPlan) {
-                const splitPlan = doc.splitTextToSize(checkinPlan, 55);
+                const splitPlan = doc.splitTextToSize(checkinPlan, 55); // Wider column
                 doc.text(splitPlan, 135, yPosition);
             } else {
                 doc.text('(No check-in plan entered)', 135, yPosition);
@@ -765,7 +791,7 @@
             
             // Update y position for next section
             yPosition += Math.max(
-                commitmentShared ? doc.splitTextToSize(commitmentShared, 55).length * 5 + 15 : 25,
+                commitmentShared ? doc.splitTextToSize(commitmentShared, 65).length * 5 + 15 : 25,
                 checkinPlan ? doc.splitTextToSize(checkinPlan, 55).length * 5 + 15 : 25
             );
             
@@ -911,6 +937,16 @@
                         tr:nth-child(even) td {
                             background-color: #f8f9fa;
                         }
+                        /* Column width adjustments */
+                        th:first-child, td:first-child {
+                            width: 20%;
+                        }
+                        th:nth-child(2), td:nth-child(2) {
+                            width: 40%;
+                        }
+                        th:nth-child(3), td:nth-child(3) {
+                            width: 40%;
+                        }
                         .reflection-list {
                             list-style-type: none;
                             margin-bottom: 20px;
@@ -953,9 +989,9 @@
                         <h2 class="section-title">Commitment Areas</h2>
                         <table>
                             <tr>
-                                <th width="25%">Area of Shift</th>
-                                <th width="37.5%">My Commitment</th>
-                                <th width="37.5%">Support & Accountability</th>
+                                <th>Area of Shift</th>
+                                <th>My Commitment</th>
+                                <th>Support & Accountability</th>
                             </tr>
                             <tr>
                                 <td>
@@ -989,9 +1025,9 @@
                         <p>Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
                         <table>
                             <tr>
-                                <th width="25%">Partner's Name</th>
-                                <th width="37.5%">My Commitment Shared</th>
-                                <th width="37.5%">Our Check-in Plan</th>
+                                <th>Partner's Name</th>
+                                <th>My Commitment Shared</th>
+                                <th>Our Check-in Plan</th>
                             </tr>
                             <tr>
                                 <td>${document.getElementById('partner-name').value || '<span class="empty-field">(No partner name entered)</span>'}</td>
