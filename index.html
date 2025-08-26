@@ -6,18 +6,17 @@
     <title>Gender-Just Climate Action Worksheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
-            --text-black: #000000;
-            --accent-pink: #e91e63;      /* Exact HeForShe toolkit pink */
+            --text-black: #232121;      /* Updated to HeForShe black */
+            --accent-magenta: #e31c79;  /* Updated to HeForShe magenta */
             --light-gray: #f8f9fa;
             --medium-gray: #e9ecef;
             --dark-gray: #212529;
             --text-gray: #6c757d;
             --border-color: #dee2e6;
-            --pink-dark: #c2185b;        /* Darker pink for hover states */
+            --magenta-dark: #c2185b;   /* Darker magenta for hover states */
         }
         
         * {
@@ -85,7 +84,7 @@
         }
         
         .btn-primary {
-            background-color: var(--accent-pink);
+            background-color: var(--accent-magenta);
             color: var(--primary-white);
             border: none;
             padding: 12px 25px;
@@ -99,13 +98,13 @@
         }
         
         .btn-primary:hover {
-            background-color: var(--pink-dark);
+            background-color: var(--magenta-dark);
         }
         
         .btn-secondary {
             background-color: var(--primary-white);
-            color: var(--accent-pink);
-            border: 2px solid var(--accent-pink);
+            color: var(--accent-magenta);
+            border: 2px solid var(--accent-magenta);
             padding: 10px 20px;
             font-size: 0.9rem;
             border-radius: 5px;
@@ -118,7 +117,7 @@
         }
         
         .btn-secondary:hover {
-            background-color: var(--accent-pink);
+            background-color: var(--accent-magenta);
             color: var(--primary-white);
         }
         
@@ -146,7 +145,7 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background-color: var(--accent-pink);
+            background-color: var(--accent-magenta);
         }
         
         .section-subtitle {
@@ -198,12 +197,12 @@
         
         .form-control:focus {
             outline: none;
-            border-color: var(--accent-pink);
-            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.25);
+            border-color: var(--accent-magenta);
+            box-shadow: 0 0 0 2px rgba(227, 28, 121, 0.25);
         }
         
         textarea.form-control {
-            min-height: 150px; /* Increased height */
+            min-height: 150px;
             resize: vertical;
         }
         
@@ -220,7 +219,7 @@
             padding: 15px;
             text-align: left;
             font-weight: 600;
-            border-bottom: 2px solid var(--accent-pink);
+            border-bottom: 2px solid var(--accent-magenta);
         }
         
         .custom-table td {
@@ -242,17 +241,17 @@
         /* Column width adjustments */
         .custom-table th:first-child,
         .custom-table td:first-child {
-            width: 20%; /* Narrower first column */
+            width: 20%;
         }
         
         .custom-table th:nth-child(2),
         .custom-table td:nth-child(2) {
-            width: 40%; /* Wider second column */
+            width: 40%;
         }
         
         .custom-table th:nth-child(3),
         .custom-table td:nth-child(3) {
-            width: 40%; /* Wider third column */
+            width: 40%;
         }
         
         /* Section Styles */
@@ -281,7 +280,7 @@
         
         .reflection-list li:before {
             content: "•";
-            color: var(--accent-pink);
+            color: var(--accent-magenta);
             font-weight: bold;
             position: absolute;
             left: 0;
@@ -305,7 +304,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: none;
             z-index: 1000;
-            border-left: 4px solid var(--accent-pink);
+            border-left: 4px solid var(--accent-magenta);
         }
         
         /* Download Options */
@@ -318,8 +317,8 @@
         
         .download-option {
             background-color: var(--primary-white);
-            border: 2px solid var(--accent-pink);
-            color: var(--accent-pink);
+            border: 2px solid var(--accent-magenta);
+            color: var(--accent-magenta);
             padding: 15px 25px;
             border-radius: 8px;
             cursor: pointer;
@@ -332,7 +331,7 @@
         }
         
         .download-option:hover {
-            background-color: var(--accent-pink);
+            background-color: var(--accent-magenta);
             color: var(--primary-white);
         }
         
@@ -559,27 +558,28 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Set the pink accent color
-            const pinkColor = [233, 30, 99]; // RGB for #e91e63
+            // Set the magenta accent color
+            const magentaColor = [227, 28, 121]; // RGB for #e31c79
+            const blackColor = [35, 33, 33]; // RGB for #232121
             
-            // Add header with pink accent
-            doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
+            // Add white header (removed pink background)
+            doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 210, 30, 'F');
             
-            // Add title in BLACK (changed from white)
-            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
+            // Add title in BLACK
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             doc.setFontSize(18);
             doc.setFont('helvetica', 'bold');
             doc.text('Steps Toward Gender-Just Climate Action', 105, 20, { align: 'center' });
             
             // Reset text color
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'normal');
             doc.text('Action Planning & Accountability Worksheet', 105, 40, { align: 'center' });
             
-            // Add pink underline
-            doc.setDrawColor(pinkColor[0], pinkColor[1], pinkColor[2]);
+            // Add magenta underline
+            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
             doc.setLineWidth(1);
             doc.line(50, 45, 160, 45);
             
@@ -592,19 +592,18 @@
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
             
-            // Table headers with pink background
-            doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-            doc.rect(20, 75, 40, 10, 'F');      // Narrower first column
-            doc.rect(60, 75, 70, 10, 'F');      // Wider second column
-            doc.rect(130, 75, 60, 10, 'F');     // Wider third column
+            // Table headers with white background and magenta bottom border
+            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
+            doc.setLineWidth(2);
+            doc.line(20, 75, 190, 75); // Magenta line under headers
             
-            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             doc.text('Area of Shift', 40, 82, { align: 'center' });
             doc.text('My Commitment', 95, 82, { align: 'center' });
             doc.text('Support', 160, 82, { align: 'center' });
             
             // Reset text color
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             
             // Table content
             let yPosition = 95;
@@ -620,7 +619,7 @@
             // Thinking commitment
             const thinkingCommitment = document.getElementById('thinking-commitment').value;
             if (thinkingCommitment) {
-                const splitCommitment = doc.splitTextToSize(thinkingCommitment, 65); // Wider column
+                const splitCommitment = doc.splitTextToSize(thinkingCommitment, 65);
                 doc.text(splitCommitment, 65, yPosition);
             } else {
                 doc.text('(No commitment entered)', 65, yPosition);
@@ -629,7 +628,7 @@
             // Thinking support
             const thinkingSupport = document.getElementById('thinking-support').value;
             if (thinkingSupport) {
-                const splitSupport = doc.splitTextToSize(thinkingSupport, 55); // Wider column
+                const splitSupport = doc.splitTextToSize(thinkingSupport, 55);
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
@@ -656,7 +655,7 @@
             // Behavior commitment
             const behaviorCommitment = document.getElementById('behavior-commitment').value;
             if (behaviorCommitment) {
-                const splitCommitment = doc.splitTextToSize(behaviorCommitment, 65); // Wider column
+                const splitCommitment = doc.splitTextToSize(behaviorCommitment, 65);
                 doc.text(splitCommitment, 65, yPosition);
             } else {
                 doc.text('(No commitment entered)', 65, yPosition);
@@ -665,7 +664,7 @@
             // Behavior support
             const behaviorSupport = document.getElementById('behavior-support').value;
             if (behaviorSupport) {
-                const splitSupport = doc.splitTextToSize(behaviorSupport, 55); // Wider column
+                const splitSupport = doc.splitTextToSize(behaviorSupport, 55);
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
@@ -693,7 +692,7 @@
             // Influence commitment
             const influenceCommitment = document.getElementById('influence-commitment').value;
             if (influenceCommitment) {
-                const splitCommitment = doc.splitTextToSize(influenceCommitment, 65); // Wider column
+                const splitCommitment = doc.splitTextToSize(influenceCommitment, 65);
                 doc.text(splitCommitment, 65, yPosition);
             } else {
                 doc.text('(No commitment entered)', 65, yPosition);
@@ -702,13 +701,13 @@
             // Influence support
             const influenceSupport = document.getElementById('influence-support').value;
             if (influenceSupport) {
-                const splitSupport = doc.splitTextToSize(influenceSupport, 55); // Wider column
+                const splitSupport = doc.splitTextToSize(influenceSupport, 55);
                 doc.text(splitSupport, 135, yPosition);
             } else {
                 doc.text('(No support plan entered)', 135, yPosition);
             }
             
-            // Add new page for partner section
+            // Add new page for partner section and reflection
             doc.addPage();
             yPosition = 30;
             
@@ -726,19 +725,18 @@
             // Create table for partner check-in
             yPosition += 35;
             
-            // Table headers with pink background
-            doc.setFillColor(pinkColor[0], pinkColor[1], pinkColor[2]);
-            doc.rect(20, yPosition, 40, 10, 'F');      // Narrower first column
-            doc.rect(60, yPosition, 70, 10, 'F');      // Wider second column
-            doc.rect(130, yPosition, 60, 10, 'F');     // Wider third column
+            // Table headers with magenta bottom border
+            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
+            doc.setLineWidth(2);
+            doc.line(20, yPosition, 190, yPosition); // Magenta line under headers
             
-            doc.setTextColor(0, 0, 0); // Changed from 255,255,255
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             doc.text('Partner\'s Name', 40, yPosition + 7, { align: 'center' });
             doc.text('Commitment', 95, yPosition + 7, { align: 'center' });
             doc.text('Check-in Plan', 160, yPosition + 7, { align: 'center' });
             
             // Reset text color
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
             
             // Table content
             yPosition += 20;
@@ -754,7 +752,7 @@
             // Commitment shared
             const commitmentShared = document.getElementById('commitment-shared').value;
             if (commitmentShared) {
-                const splitCommitment = doc.splitTextToSize(commitmentShared, 65); // Wider column
+                const splitCommitment = doc.splitTextToSize(commitmentShared, 65);
                 doc.text(splitCommitment, 65, yPosition);
             } else {
                 doc.text('(No commitment shared)', 65, yPosition);
@@ -763,7 +761,7 @@
             // Check-in plan
             const checkinPlan = document.getElementById('checkin-plan').value;
             if (checkinPlan) {
-                const splitPlan = doc.splitTextToSize(checkinPlan, 55); // Wider column
+                const splitPlan = doc.splitTextToSize(checkinPlan, 55);
                 doc.text(splitPlan, 135, yPosition);
             } else {
                 doc.text('(No check-in plan entered)', 135, yPosition);
@@ -775,9 +773,8 @@
                 checkinPlan ? doc.splitTextToSize(checkinPlan, 55).length * 5 + 15 : 25
             );
             
-            // Add new page for reflection section
-            doc.addPage();
-            yPosition = 30;
+            // Add space before reflection section
+            yPosition += 20;
             
             // Reflection Section
             doc.setFontSize(16);
@@ -811,8 +808,6 @@
                 doc.text('(No reflections entered)', 20, yPosition);
             }
             
-            // Footer removed as requested
-            
             // Save the PDF
             doc.save('climate-action-worksheet.pdf');
             
@@ -820,10 +815,11 @@
         }
         
         function downloadAsWord() {
-            // Get the pink accent color
-            const pinkColor = '#e91e63';
+            // Get the magenta accent color and black color
+            const magentaColor = '#e31c79';
+            const blackColor = '#232121';
             
-            // Create HTML content for Word document with site styling
+            // Create HTML content for Word document with HeForShe styling
             const htmlContent = `
                 <html>
                 <head>
@@ -838,15 +834,16 @@
                             line-height: 1.6;
                             margin: 0;
                             padding: 0;
-                            color: #000000;
+                            color: ${blackColor};
                             background-color: #ffffff;
                         }
                         .header {
-                            background-color: ${pinkColor};
-                            color: #000000; /* Changed from #ffffff */
+                            background-color: #ffffff;
+                            color: ${blackColor};
                             padding: 15px 0;
                             text-align: center;
                             margin-bottom: 20px;
+                            border-bottom: 2px solid ${magentaColor};
                         }
                         h1 {
                             font-size: 24pt;
@@ -858,17 +855,11 @@
                             font-weight: 600;
                             margin: 5px 0 0 0;
                         }
-                        .title-underline {
-                            width: 100px;
-                            height: 3px;
-                            background-color: ${pinkColor};
-                            margin: 10px auto;
-                        }
                         .section {
                             margin-bottom: 25px;
                         }
                         .section-title {
-                            color: #000000;
+                            color: ${blackColor};
                             font-size: 16pt;
                             font-weight: 700;
                             margin-bottom: 15px;
@@ -882,7 +873,7 @@
                             left: 0;
                             width: 60px;
                             height: 3px;
-                            background-color: ${pinkColor};
+                            background-color: ${magentaColor};
                         }
                         table {
                             width: 100%;
@@ -890,11 +881,12 @@
                             margin-bottom: 20px;
                         }
                         th {
-                            background-color: ${pinkColor};
-                            color: #000000; /* Changed from #ffffff */
+                            background-color: #ffffff;
+                            color: ${blackColor};
                             padding: 10px;
                             text-align: left;
                             font-weight: 600;
+                            border-bottom: 2px solid ${magentaColor};
                         }
                         td {
                             border: 1px solid #dee2e6;
@@ -926,7 +918,7 @@
                         }
                         .reflection-list li:before {
                             content: "•";
-                            color: ${pinkColor};
+                            color: ${magentaColor};
                             font-weight: bold;
                             position: absolute;
                             left: 0;
@@ -935,7 +927,7 @@
                             color: #6c757d;
                             font-style: italic;
                         }
-                        /* Page break for partner section */
+                        /* Page break for second page */
                         .page-break {
                             page-break-before: always;
                         }
@@ -945,7 +937,6 @@
                     <div class="header">
                         <h1>Steps Toward Gender-Just Climate Action</h1>
                         <h2>Action Planning & Accountability Worksheet</h2>
-                        <div class="title-underline"></div>
                     </div>
                     
                     <div class="section">
@@ -1001,8 +992,6 @@
                             </tr>
                         </table>
                     </div>
-                    
-                    <div class="page-break"></div>
                     
                     <div class="section">
                         <h2 class="section-title">Reflection Prompts</h2>
