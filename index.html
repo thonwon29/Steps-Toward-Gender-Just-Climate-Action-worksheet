@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender-Just Climate Action Worksheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
@@ -30,6 +30,11 @@
             background-color: var(--light-gray);
             color: var(--text-black);
             line-height: 1.6;
+        }
+        
+        .page-break {
+            page-break-before: always;
+            margin-top: 50px;
         }
         
         .header {
@@ -329,12 +334,10 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
         .modal {
             background-color: var(--primary-white);
             border-radius: 8px;
@@ -345,11 +348,9 @@
             transform: translateY(-20px);
             transition: transform 0.3s ease;
         }
-
         .modal-overlay.active .modal {
             transform: translateY(0);
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -358,14 +359,12 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .modal-title {
             color: var(--text-black);
             font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
         }
-
         .modal-close {
             background: none;
             border: none;
@@ -374,27 +373,22 @@
             color: var(--text-gray);
             transition: color 0.3s;
         }
-
         .modal-close:hover {
             color: var(--accent-magenta);
         }
-
         .modal-body {
             margin-bottom: 20px;
         }
-
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-
         .datetime-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-
         .notification {
             position: fixed;
             bottom: 20px;
@@ -407,7 +401,6 @@
             display: none;
             z-index: 1000;
         }
-
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -430,7 +423,6 @@
                 flex-direction: column;
                 align-items: center;
             }
-
             .datetime-inputs {
                 grid-template-columns: 1fr;
             }
@@ -455,7 +447,7 @@
         </div>
     </section>
     
-    <!-- Main Content -->
+    <!-- Main Content - Page 1 -->
     <main class="main-content" id="worksheet">
         <h2 class="section-title">Your Climate Action Plan</h2>
         <p class="section-subtitle">Use this worksheet to identify three shifts you are ready to make.</p>
@@ -525,7 +517,7 @@
         </div>
     </main>
     
-    <!-- Partner Section -->
+    <!-- Partner Section - Page 2 -->
     <section class="light-section">
         <div class="section-container">
             <h2 class="section-title">Optional Partner Check-In</h2>
@@ -571,7 +563,7 @@
         </div>
     </section>
     
-    <!-- Reflection Section -->
+    <!-- Reflection Section - Page 2 -->
     <section class="main-content">
         <h2 class="section-title">Reflection Prompts (Optional)</h2>
         <p class="section-subtitle">Consider these questions to deepen your commitment.</p>
@@ -652,10 +644,69 @@
         
         function downloadAsPDF() {
             showNotification('Your worksheet has been downloaded as a PDF file!');
+            
+            // Get form values
+            const thinkingCommitment = document.getElementById('thinking-commitment').value;
+            const thinkingSupport = document.getElementById('thinking-support').value;
+            const behaviorCommitment = document.getElementById('behavior-commitment').value;
+            const behaviorSupport = document.getElementById('behavior-support').value;
+            const influenceCommitment = document.getElementById('influence-commitment').value;
+            const influenceSupport = document.getElementById('influence-support').value;
+            const partnerName = document.getElementById('partner-name').value;
+            const commitmentShared = document.getElementById('commitment-shared').value;
+            const checkinPlan = document.getElementById('checkin-plan').value;
+            const reflectionNotes = document.getElementById('reflection-notes').value;
+            
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Title
+            doc.setFontSize(18);
+            doc.text("Gender-Just Climate Action Worksheet", 105, 20, null, null, "center");
+            
+            // Commitments Section
+            doc.setFontSize(14);
+            doc.text("My Climate Action Plan", 20, 40);
+            
+            doc.setFontSize(12);
+            doc.text("Shift in Thinking:", 20, 55);
+            doc.text(thinkingCommitment || "No commitment entered", 30, 65);
+            doc.text("Support & Accountability:", 20, 75);
+            doc.text(thinkingSupport || "No support details entered", 30, 85);
+            
+            doc.text("Shift in Behavior:", 20, 100);
+            doc.text(behaviorCommitment || "No commitment entered", 30, 110);
+            doc.text("Support & Accountability:", 20, 120);
+            doc.text(behaviorSupport || "No support details entered", 30, 130);
+            
+            doc.text("Shift in Influence:", 20, 145);
+            doc.text(influenceCommitment || "No commitment entered", 30, 155);
+            doc.text("Support & Accountability:", 20, 165);
+            doc.text(influenceSupport || "No support details entered", 30, 175);
+            
+            // Partner Section
+            doc.text("Optional Partner Check-In", 20, 195);
+            doc.text(`Partner's Name: ${partnerName || "Not specified"}`, 20, 210);
+            doc.text("My Commitment Shared:", 20, 225);
+            doc.text(commitmentShared || "No commitment shared", 30, 235);
+            doc.text("Our Check-in Plan:", 20, 250);
+            doc.text(checkinPlan || "Nocheck-in plan", 30, 260);
+            
+            // Reflection Prompts
+            doc.text("Reflection Prompts", 20, 280);
+            doc.text("What barriers might I face, and how will I address them?", 20, 295);
+            doc.text(reflectionNotes ? reflectionNotes.substring(0, 70) + "..." : "No reflections added", 30, 305);
+            
+            doc.save("gender-just-climate-action-worksheet.pdf");
         }
         
         function downloadAsWord() {
             showNotification('Your worksheet has been downloaded as a Word document!');
+            
+            // In a real implementation, we would use a library like mammoth.js
+            // For now, we'll simulate the download
+            alert("Word document download simulated. In a production environment, this would generate a .docx file.");
         }
         
         // Custom Modal Functionality
@@ -664,7 +715,7 @@
         const modalCancel = document.getElementById('modal-cancel');
         const modalConfirm = document.getElementById('modal-confirm');
         
-        // Set default date to today and time to current time + 1 hour
+        // Set default date to tomorrow and time to current time + 1 hour
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
