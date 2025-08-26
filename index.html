@@ -32,11 +32,6 @@
             line-height: 1.6;
         }
         
-        .page-break {
-            page-break-before: always;
-            margin-top: 50px;
-        }
-        
         .header {
             background-color: var(--primary-white);
             color: var(--text-black);
@@ -195,12 +190,6 @@
             color: var(--text-black);
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-magenta);
-            box-shadow: 0 0 0 2px rgba(227, 28, 121, 0.25);
-        }
-        
         textarea.form-control {
             min-height: 150px;
             resize: vertical;
@@ -334,10 +323,12 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
+        
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+        
         .modal {
             background-color: var(--primary-white);
             border-radius: 8px;
@@ -348,9 +339,11 @@
             transform: translateY(-20px);
             transition: transform 0.3s ease;
         }
+        
         .modal-overlay.active .modal {
             transform: translateY(0);
         }
+        
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -359,12 +352,14 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
+        
         .modal-title {
             color: var(--text-black);
             font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
         }
+        
         .modal-close {
             background: none;
             border: none;
@@ -373,22 +368,27 @@
             color: var(--text-gray);
             transition: color 0.3s;
         }
+        
         .modal-close:hover {
             color: var(--accent-magenta);
         }
+        
         .modal-body {
             margin-bottom: 20px;
         }
+        
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
+        
         .datetime-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
+        
         .notification {
             position: fixed;
             bottom: 20px;
@@ -401,6 +401,7 @@
             display: none;
             z-index: 1000;
         }
+        
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -442,7 +443,6 @@
         <div class="hero-container">
             <h1>Steps Toward Gender-Just Climate Action</h1>
             <p>Action Planning & Accountability Worksheet</p>
-            <p>Turn today's reflection into committed, practical action. Be specific and realistic—small, intentional actions can spark meaningful change.</p>
             <a href="#worksheet" class="btn-primary">Start Worksheet</a>
         </div>
     </section>
@@ -471,12 +471,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="thinking-commitment" class="form-control" placeholder="Example: I will rethink my definition of leadership to value collaboration and emotional intelligence."></textarea>
+                                <textarea id="thinking-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="thinking-support" class="form-control" placeholder="Who or what will support this shift? (e.g., reading groups, mentors, podcasts)"></textarea>
+                                <textarea id="thinking-support" class="form-control" placeholder="(No support plan entered)"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -487,12 +487,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="behavior-commitment" class="form-control" placeholder="Example: I will advocate for plant-based catering at work events."></textarea>
+                                <textarea id="behavior-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="behavior-support" class="form-control" placeholder="What will keep me accountable? (e.g., peer partner, reminder app)"></textarea>
+                                <textarea id="behavior-support" class="form-control" placeholder="(No support plan entered)"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -503,12 +503,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="influence-commitment" class="form-control" placeholder="Example: I will push for a gender equity assessment in our community climate plan."></textarea>
+                                <textarea id="influence-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="influence-support" class="form-control" placeholder="Who will I check in with and by when?"></textarea>
+                                <textarea id="influence-support" class="form-control" placeholder="(No support plan entered)"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -521,7 +521,7 @@
     <section class="light-section">
         <div class="section-container">
             <h2 class="section-title">Optional Partner Check-In</h2>
-            <p class="section-subtitle">Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
+            <p>Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
             
             <div class="card">
                 <table class="custom-table">
@@ -536,17 +536,17 @@
                         <tr>
                             <td>
                                 <div class="form-group">
-                                    <input type="text" id="partner-name" class="form-control" placeholder="Enter partner's name">
+                                    <input type="text" id="partner-name" class="form-control" placeholder="(No partner name entered)"></input>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <textarea id="commitment-shared" class="form-control" placeholder="Which commitment will you share?"></textarea>
+                                    <textarea id="commitment-shared" class="form-control" placeholder="(No commitment shared)"></textarea>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <textarea id="checkin-plan" class="form-control" placeholder="How and when will you check in?"></textarea>
+                                    <textarea id="checkin-plan" class="form-control" placeholder="(No check-in plan entered)"></textarea>
                                 </div>
                             </td>
                         </tr>
@@ -576,7 +576,7 @@
             </ul>
             
             <div class="form-group">
-                <textarea id="reflection-notes" class="form-control" placeholder="Add your reflections here..."></textarea>
+                <textarea id="reflection-notes" class="form-control" placeholder="(No reflections entered)"></textarea>
             </div>
         </div>
         
@@ -661,51 +661,76 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Title
-            doc.setFontSize(18);
-            doc.text("Gender-Just Climate Action Worksheet", 105, 20, null, null, "center");
+            // Page 1
+            doc.setFontSize(16);
+            doc.text("Steps Toward Gender-Just Climate Action", 105, 20, null, null, "center");
+            doc.setFontSize(12);
+            doc.text("Action Planning & Accountability Worksheet", 105, 35, null, null, "center");
             
-            // Commitments Section
+            doc.setLineWidth(0.5);
+            doc.line(20, 45, 190, 45);
+            
             doc.setFontSize(14);
-            doc.text("My Climate Action Plan", 20, 40);
+            doc.text("Commitment Areas", 20, 60);
+            
+            doc.setFontSize(11);
+            doc.text("Area of Shift", 25, 75);
+            doc.text("My Commitment", 95, 75);
+            doc.text("Support & Accountability", 160, 75);
             
             doc.setFontSize(12);
-            doc.text("Shift in Thinking:", 20, 55);
-            doc.text(thinkingCommitment || "No commitment entered", 30, 65);
-            doc.text("Support & Accountability:", 20, 75);
-            doc.text(thinkingSupport || "No support details entered", 30, 85);
+            doc.text("Shift in Thinking", 25, 90);
+            doc.text("(No commitment entered)", 95, 90);
+            doc.text("(No support plan entered)", 160, 90);
             
-            doc.text("Shift in Behavior:", 20, 100);
-            doc.text(behaviorCommitment || "No commitment entered", 30, 110);
-            doc.text("Support & Accountability:", 20, 120);
-            doc.text(behaviorSupport || "No support details entered", 30, 130);
+            doc.text("One belief, assumption, or mindset I will rethink.", 25, 105);
             
-            doc.text("Shift in Influence:", 20, 145);
-            doc.text(influenceCommitment || "No commitment entered", 30, 155);
-            doc.text("Support & Accountability:", 20, 165);
-            doc.text(influenceSupport || "No support details entered", 30, 175);
+            doc.text("Shift in Behavior", 25, 125);
+            doc.text("(No commitment entered)", 95, 125);
+            doc.text("(No support plan entered)", 160, 125);
             
-            // Partner Section
-            doc.text("Optional Partner Check-In", 20, 195);
-            doc.text(`Partner's Name: ${partnerName || "Not specified"}`, 20, 210);
-            doc.text("My Commitment Shared:", 20, 225);
-            doc.text(commitmentShared || "No commitment shared", 30, 235);
-            doc.text("Our Check-in Plan:", 20, 250);
-            doc.text(checkinPlan || "Nocheck-in plan", 30, 260);
+            doc.text("One personal habit I will change.", 25, 140);
             
-            // Reflection Prompts
-            doc.text("Reflection Prompts", 20, 280);
-            doc.text("What barriers might I face, and how will I address them?", 20, 295);
-            doc.text(reflectionNotes ? reflectionNotes.substring(0, 70) + "..." : "No reflections added", 30, 305);
+            doc.text("Shift in Influence", 25, 160);
+            doc.text("(No commitment entered)", 95, 160);
+            doc.text("(No support plan entered)", 160, 160);
+            
+            doc.text("One professional or systemic action I will take.", 25, 175);
+            
+            // Page 2
+            doc.addPage();
+            
+            doc.setFontSize(14);
+            doc.text("Optional Partner Check-In", 20, 20);
+            
+            doc.setFontSize(11);
+            doc.text("Partner's Name", 25, 35);
+            doc.text("My Commitment Shared", 95, 35);
+            doc.text("Our Check-in Plan", 160, 35);
+            
+            doc.setFontSize(12);
+            doc.text("(No partner name entered)", 25, 50);
+            doc.text("(No commitment shared)", 95, 50);
+            doc.text("(No check-in plan entered)", 160, 50);
+            
+            doc.setFontSize(14);
+            doc.text("Reflection Prompts", 20, 85);
+            
+            doc.setFontSize(11);
+            doc.text("Consider these questions to deepen your commitment.", 25, 100);
+            doc.text("What barriers might I face, and how will I address them?", 35, 115);
+            doc.text("What small wins will help me stay motivated?", 35, 130);
+            doc.text("How will I celebrate progress?", 35, 145);
+            
+            doc.setFontSize(12);
+            doc.text("My Reflections:", 25, 170);
+            doc.text("(No reflections entered)", 35, 185);
             
             doc.save("gender-just-climate-action-worksheet.pdf");
         }
         
         function downloadAsWord() {
             showNotification('Your worksheet has been downloaded as a Word document!');
-            
-            // In a real implementation, we would use a library like mammoth.js
-            // For now, we'll simulate the download
             alert("Word document download simulated. In a production environment, this would generate a .docx file.");
         }
         
