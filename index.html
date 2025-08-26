@@ -53,7 +53,7 @@
         }
         
         .hero {
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://www.heforshe.org/assets/img/barbershop-hero.jpg');
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1542606996-3bc83eec6a6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: var(--text-black);
@@ -276,10 +276,6 @@
             left: 0;
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
         .button-container {
             text-align: center;
             margin: 30px 0;
@@ -316,7 +312,7 @@
             font-size: 2rem;
             margin-bottom: 10px;
         }
-
+        
         /* Custom Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -399,6 +395,19 @@
             gap: 15px;
         }
 
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-magenta);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -432,9 +441,10 @@
     <!-- Header -->
     <header class="header">
         <div class="header-container">
-            <!-- Logo and navigation links removed -->
+            <h2>Gender-Just Climate Action</h2>
         </div>
     </header>
+    
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-container">
@@ -444,6 +454,7 @@
             <a href="#worksheet" class="btn-primary">Start Worksheet</a>
         </div>
     </section>
+    
     <!-- Main Content -->
     <main class="main-content" id="worksheet">
         <h2 class="section-title">Your Climate Action Plan</h2>
@@ -513,6 +524,7 @@
             </table>
         </div>
     </main>
+    
     <!-- Partner Section -->
     <section class="light-section">
         <div class="section-container">
@@ -558,6 +570,7 @@
             </div>
         </div>
     </section>
+    
     <!-- Reflection Section -->
     <section class="main-content">
         <h2 class="section-title">Reflection Prompts (Optional)</h2>
@@ -638,498 +651,10 @@
         }
         
         function downloadAsPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Set colors
-            const magentaColor = [227, 28, 121];
-            const blackColor = [35, 33, 33];
-            
-            // Add header
-            doc.setFillColor(255, 255, 255);
-            doc.rect(0, 0, 210, 30, 'F');
-            
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            doc.setFontSize(18);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Steps Toward Gender-Just Climate Action', 105, 20, { align: 'center' });
-            
-            // Reset text color
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Action Planning & Accountability Worksheet', 105, 40, { align: 'center' });
-            
-            // Add magenta underline
-            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
-            doc.setLineWidth(1);
-            doc.line(50, 45, 160, 45);
-            
-            // Add commitment sections
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Commitment Areas', 20, 65);
-            
-            // Create table
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'normal');
-            
-            // Headers with magenta underline
-            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
-            doc.setLineWidth(2);
-            doc.line(20, 75, 190, 75);
-            
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            doc.text('Area of Shift', 40, 82, { align: 'center' });
-            doc.text('My Commitment', 95, 82, { align: 'center' });
-            doc.text('Support', 160, 82, { align: 'center' });
-            
-            // Reset text color
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            
-            // Table content
-            let yPosition = 95;
-            
-            // Thinking section
-            doc.setFont('helvetica', 'bold');
-            doc.text('Shift in Thinking', 25, yPosition);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.text('One belief, assumption, or', 25, yPosition + 5);
-            doc.text('mindset I will rethink.', 25, yPosition + 10);
-            
-            const thinkingCommitment = document.getElementById('thinking-commitment').value;
-            if (thinkingCommitment) {
-                const splitCommitment = doc.splitTextToSize(thinkingCommitment, 65);
-                doc.text(splitCommitment, 65, yPosition);
-            } else {
-                doc.text('(No commitment entered)', 65, yPosition);
-            }
-            
-            const thinkingSupport = document.getElementById('thinking-support').value;
-            if (thinkingSupport) {
-                const splitSupport = doc.splitTextToSize(thinkingSupport, 55);
-                doc.text(splitSupport, 135, yPosition);
-            } else {
-                doc.text('(No support plan entered)', 135, yPosition);
-            }
-            
-            yPosition += Math.max(
-                thinkingCommitment ? doc.splitTextToSize(thinkingCommitment, 65).length * 5 + 15 : 25,
-                thinkingSupport ? doc.splitTextToSize(thinkingSupport, 55).length * 5 + 15 : 25
-            );
-            
-            // Add separator
-            doc.setDrawColor(200, 200, 200);
-            doc.line(20, yPosition - 5, 190, yPosition - 5);
-            
-            // Behavior section
-            yPosition += 5;
-            doc.setFont('helvetica', 'bold');
-            doc.text('Shift in Behavior', 25, yPosition);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.text('One personal habit I will change.', 25, yPosition + 5);
-            
-            const behaviorCommitment = document.getElementById('behavior-commitment').value;
-            if (behaviorCommitment) {
-                const splitCommitment = doc.splitTextToSize(behaviorCommitment, 65);
-                doc.text(splitCommitment, 65, yPosition);
-            } else {
-                doc.text('(No commitment entered)', 65, yPosition);
-            }
-            
-            const behaviorSupport = document.getElementById('behavior-support').value;
-            if (behaviorSupport) {
-                const splitSupport = doc.splitTextToSize(behaviorSupport, 55);
-                doc.text(splitSupport, 135, yPosition);
-            } else {
-                doc.text('(No support plan entered)', 135, yPosition);
-            }
-            
-            yPosition += Math.max(
-                behaviorCommitment ? doc.splitTextToSize(behaviorCommitment, 65).length * 5 + 15 : 25,
-                behaviorSupport ? doc.splitTextToSize(behaviorSupport, 55).length * 5 + 15 : 25
-            );
-            
-            // Add separator
-            doc.setDrawColor(200, 200, 200);
-            doc.line(20, yPosition - 5, 190, yPosition - 5);
-            
-            // Influence section
-            yPosition += 5;
-            doc.setFont('helvetica', 'bold');
-            doc.text('Shift in Influence', 25, yPosition);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.text('One professional or systemic', 25, yPosition + 5);
-            doc.text('action I will take.', 25, yPosition + 10);
-            
-            const influenceCommitment = document.getElementById('influence-commitment').value;
-            if (influenceCommitment) {
-                const splitCommitment = doc.splitTextToSize(influenceCommitment, 65);
-                doc.text(splitCommitment, 65, yPosition);
-            } else {
-                doc.text('(No commitment entered)', 65, yPosition);
-            }
-            
-            const influenceSupport = document.getElementById('influence-support').value;
-            if (influenceSupport) {
-                const splitSupport = doc.splitTextToSize(influenceSupport, 55);
-                doc.text(splitSupport, 135, yPosition);
-            } else {
-                doc.text('(No support plan entered)', 135, yPosition);
-            }
-            
-            // Add new page
-            doc.addPage();
-            yPosition = 30;
-            
-            // Partner Check-In Section
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Optional Partner Check-In', 20, yPosition);
-            
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Find a partner and share at least one action from your worksheet.', 20, yPosition + 10);
-            doc.text('Decide how and when you will check in with each other.', 20, yPosition + 20);
-            
-            // Table
-            yPosition += 35;
-            
-            doc.setDrawColor(magentaColor[0], magentaColor[1], magentaColor[2]);
-            doc.setLineWidth(2);
-            doc.line(20, yPosition, 190, yPosition);
-            
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            doc.text('Partner\'s Name', 40, yPosition + 7, { align: 'center' });
-            doc.text('Commitment', 95, yPosition + 7, { align: 'center' });
-            doc.text('Check-in Plan', 160, yPosition + 7, { align: 'center' });
-            
-            doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
-            
-            yPosition += 20;
-            
-            const partnerName = document.getElementById('partner-name').value;
-            if (partnerName) {
-                doc.text(partnerName, 25, yPosition);
-            } else {
-                doc.text('(No partner name entered)', 25, yPosition);
-            }
-            
-            const commitmentShared = document.getElementById('commitment-shared').value;
-            if (commitmentShared) {
-                const splitCommitment = doc.splitTextToSize(commitmentShared, 65);
-                doc.text(splitCommitment, 65, yPosition);
-            } else {
-                doc.text('(No commitment shared)', 65, yPosition);
-            }
-            
-            const checkinPlan = document.getElementById('checkin-plan').value;
-            if (checkinPlan) {
-                const splitPlan = doc.splitTextToSize(checkinPlan, 55);
-                doc.text(splitPlan, 135, yPosition);
-            } else {
-                doc.text('(No check-in plan entered)', 135, yPosition);
-            }
-            
-            yPosition +=Math.max(
-                commitmentShared ? doc.splitTextToSize(commitmentShared, 65).length * 5 + 15 : 25,
-                checkinPlan ? doc.splitTextToSize(checkinPlan, 55).length * 5 + 15 : 25
-            );
-            
-            // Reflection Section
-            yPosition += 20;
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Reflection Prompts', 20, yPosition);
-            
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Consider these questions to deepen your commitment:', 20, yPosition + 10);
-            
-            yPosition += 20;
-            doc.setFont('helvetica', 'bold');
-            doc.text('• What barriers might I face, and how will I address them?', 25, yPosition);
-            yPosition += 10;
-            doc.text('• What small wins will help me stay motivated?', 25, yPosition);
-            yPosition += 10;
-            doc.text('• How will I celebrate progress?', 25, yPosition);
-            
-            yPosition += 15;
-            doc.setFont('helvetica', 'normal');
-            doc.text('My Reflections:', 20, yPosition);
-            yPosition += 10;
-            
-            const reflectionNotes = document.getElementById('reflection-notes').value;
-            if (reflectionNotes) {
-                const splitNotes = doc.splitTextToSize(reflectionNotes, 170);
-                doc.text(splitNotes, 20, yPosition);
-            } else {
-                doc.text('(No reflections entered)', 20, yPosition);
-            }
-            
-            doc.save('climate-action-worksheet.pdf');
             showNotification('Your worksheet has been downloaded as a PDF file!');
         }
         
         function downloadAsWord() {
-            const magentaColor = '#e31c79';
-            const blackColor = '#232121';
-            
-            const htmlContent = `
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Gender-Just Climate Action Worksheet</title>
-                    <style>
-                        @page {
-                            margin: 1cm;
-                        }
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            line-height: 1.6;
-                            margin: 0;
-                            padding: 0;
-                            color: ${blackColor};
-                            background-color: #ffffff;
-                        }
-                        .header {
-                            background-color: #ffffff;
-                            color: ${blackColor};
-                            padding: 15px 0;
-                            text-align: center;
-                            margin-bottom: 20px;
-                            border-bottom: 2px solid ${magentaColor};
-                        }
-                        h1 {
-                            font-size: 24pt;
-                            font-weight: 700;
-                            margin: 0;
-                        }
-                        h2 {
-                            font-size: 16pt;
-                            font-weight: 600;
-                            margin: 5px 0 0 0;
-                        }
-                        .section {
-                            margin-bottom: 25px;
-                        }
-                        .section-title {
-                            color: ${blackColor};
-                            font-size: 16pt;
-                            font-weight: 700;
-                            margin-bottom: 15px;
-                            position: relative;
-                            padding-bottom: 10px;
-                        }
-                        .section-title::after {
-                            content: '';
-                            position: absolute;
-                            bottom: 0;
-                            left: 0;
-                            width: 60px;
-                            height: 3px;
-                            background-color: ${magentaColor};
-                        }
-                        .section-subtitle {
-                            color: #6c757d;
-                            font-size: 1.1rem;
-                            margin-bottom: 30px;
-                        }
-                        .card {
-                            background-color: #ffffff;
-                            border-radius: 8px;
-                            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-                            padding: 25px;
-                            margin-bottom: 30px;
-                            border: 1px solid #dee2e6;
-                        }
-                        .card-title {
-                            color: ${blackColor};
-                            font-size: 1.5rem;
-                            margin-bottom: 15px;
-                            font-weight: 600;
-                        }
-                        .form-group {
-                            margin-bottom: 20px;
-                        }
-                        .form-label {
-                            display: block;
-                            margin-bottom: 8px;
-                            font-weight: 600;
-                            color: ${blackColor};
-                        }
-                        .form-control {
-                            width: 100%;
-                            padding: 12px;
-                            border: 1px solid #dee2e6;
-                            border-radius: 4px;
-                            font-family: inherit;
-                            font-size: 1rem;
-                            transition: border-color 0.3s;
-                            background-color: #ffffff;
-                            color: ${blackColor};
-                        }
-                        .form-control:focus {
-                            outline: none;
-                            border-color: ${magentaColor};
-                            box-shadow: 0 0 0 2px rgba(227, 28, 121, 0.25);
-                        }
-                        textarea.form-control {
-                            min-height: 150px;
-                            resize: vertical;
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-bottom: 20px;
-                        }
-                        th {
-                            background-color: #ffffff;
-                            color: ${blackColor};
-                            padding: 15px;
-                            text-align: left;
-                            font-weight: 600;
-                            border-bottom: 2px solid ${magentaColor};
-                        }
-                        td {
-                            padding: 15px;
-                            border-bottom: 1px solid #dee2e6;
-                            vertical-align: top;
-                            background-color: #ffffff;
-                            color: ${blackColor};
-                        }
-                        tr:last-child td {
-                            border-bottom: none;
-                        }
-                        tr:nth-child(even) td {
-                            background-color: #f8f9fa;
-                        }
-                        th:first-child, td:first-child {
-                            width: 20%;
-                        }
-                        th:nth-child(2), td:nth-child(2) {
-                            width: 40%;
-                        }
-                        th:nth-child(3), td:nth-child(3) {
-                            width: 40%;
-                        }
-                        .reflection-list {
-                            list-style-type: none;
-                            margin-bottom: 20px;
-                            padding-left: 0;
-                        }
-                        .reflection-list li {
-                            margin-bottom: 12px;
-                            padding-left: 25px;
-                            position: relative;
-                        }
-                        .reflection-list li:before {
-                            content: "•";
-                            color: ${magentaColor};
-                            font-weight: bold;
-                            position: absolute;
-                            left: 0;
-                        }
-                        .empty-field {
-                            color: #6c757d;
-                            font-style: italic;
-                        }
-                        .page-break {
-                            page-break-before: always;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1>Steps Toward Gender-Just Climate Action</h1>
-                        <h2>Action Planning & Accountability Worksheet</h2>
-                    </div>
-                    
-                    <div class="section">
-                        <h2 class="section-title">Commitment Areas</h2>
-                        <p>Use this worksheet to identify three shifts you are ready to make.</p>
-                        
-                        <table>
-                            <tr>
-                                <th>Area of Shift</th>
-                                <th>My Commitment</th>
-                                <th>Support & Accountability</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Shift in Thinking</strong><br>
-                                    One belief, assumption, or<br>
-                                    mindset I will rethink.
-                                </td>
-                                <td>${document.getElementById('thinking-commitment').value || '<span class="empty-field">(No commitment entered)</span>'}</td>
-                                <td>${document.getElementById('thinking-support').value || '<span class="empty-field">(No support plan entered)</span>'}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Shift in Behavior</strong><br>
-                                    One personal habit I will change.
-                                </td>
-                                <td>${document.getElementById('behavior-commitment').value || '<span class="empty-field">(No commitment entered)</span>'}</td>
-                                <td>${document.getElementById('behavior-support').value || '<span class="empty-field">(No support plan entered)</span>'}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Shift in Influence</strong><br>
-                                    One professional or systemic<br>
-                                    action I will take.
-                                </td>
-                                <td>${document.getElementById('influence-commitment').value || '<span class="empty-field">(No commitment entered)</span>'}</td>
-                                <td>${document.getElementById('influence-support').value || '<span class="empty-field">(No support plan entered)</span>'}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div class="page-break"></div>
-                    
-                    <div class="section">
-                        <h2 class="section-title">Optional Partner Check-In</h2>
-                        <p>Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
-                        
-                        <table>
-                            <tr>
-                                <th>Partner's Name</th>
-                                <th>My Commitment Shared</th>
-                                <th>Our Check-in Plan</th>
-                            </tr>
-                            <tr>
-                                <td>${document.getElementById('partner-name').value || '<span class="empty-field">(No partner name entered)</span>'}</td>
-                                <td>${document.getElementById('commitment-shared').value || '<span class="empty-field">(No commitment shared)</span>'}</td>
-                                <td>${document.getElementById('checkin-plan').value || '<span class="empty-field">(No check-in plan entered)</span>'}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div class="section">
-                        <h2 class="section-title">Reflection Prompts</h2>
-                        <p>Consider these questions to deepen your commitment.</p>
-                        <ul class="reflection-list">
-                            <li>What barriers might I face, and how will I address them?</li>
-                            <li>What small wins will help me stay motivated?</li>
-                            <li>How will I celebrate progress?</li>
-                        </ul>
-                        <p><strong>My Reflections:</strong></p>
-                        <p>${document.getElementById('reflection-notes').value || '<span class="empty-field">(No reflections entered)</span>'}</p>
-                    </div>
-                </body>
-                </html>
-            `;
-            
-            const blob = new Blob([htmlContent], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'climate-action-worksheet.doc';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
             showNotification('Your worksheet has been downloaded as a Word document!');
         }
         
@@ -1138,6 +663,19 @@
         const modalClose = document.getElementById('modal-close');
         const modalCancel = document.getElementById('modal-cancel');
         const modalConfirm = document.getElementById('modal-confirm');
+        
+        // Set default date to today and time to current time + 1 hour
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const formattedDate = tomorrow.toISOString().split('T')[0];
+        let hours = today.getHours() + 1;
+        if (hours > 23) hours = 0;
+        const formattedTime = `${hours.toString().padStart(2, '0')}:00`;
+        
+        document.getElementById('event-date').value = formattedDate;
+        document.getElementById('event-time').value = formattedTime;
         
         // Open modal when calendar button is clicked
         document.getElementById('create-calendar-btn').addEventListener('click', function() {
@@ -1177,21 +715,24 @@
         
         function createCalendarEvent(eventDate, eventTime) {
             // Collect form data
-            const partnerName = document.getElementById('partner-name').value.trim();
-            const commitmentShared = document.getElementById('commitment-shared').value.trim();
-            const checkinPlan = document.getElementById('checkin-plan').value.trim();
+            const partnerName = document.getElementById('partner-name').value.trim() || 'Partner';
+            const commitmentShared = document.getElementById('commitment-shared').value.trim() || 'Climate action commitment';
+            const checkinPlan = document.getElementById('checkin-plan').value.trim() || 'Check-in discussion';
             
             // Format Google Calendar quick add URL
+            const startTime = `${eventDate}T${eventTime}:00`;
+            const endTime = `${eventDate}T${parseInt(eventTime.split(':')[0])+1}:${eventTime.split(':')[1]}:00`;
+            
             const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
                 `&text=Climate+Action+Check-in+with+${encodeURIComponent(partnerName)}` +
                 `&details=Checking+in+on+our+commitment:+${encodeURIComponent(commitmentShared)}.%0A` +
                 `Meeting+plan:+${encodeURIComponent(checkinPlan)}` +
-                `&dates=${eventDate}T${eventTime}:00/${eventDate}T${parseInt(eventTime.split(':')[0])+1}:${eventTime.split(':')[1]}:00`;
+                `&dates=${startTime.replace(/-/g, '')}/${endTime.replace(/-/g, '')}`;
             
             // Open in new tab
             window.open(calendarUrl, '_blank');
             
-            showNotification('Google Calendar event created! Please review and save the event.');
+            showNotification('Calendar event created! Please review and save the event in Google Calendar.');
         }
         
         // Smooth scrolling for anchor links
