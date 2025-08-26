@@ -316,7 +316,89 @@
             font-size: 2rem;
             margin-bottom: 10px;
         }
-        
+
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            color: var(--text-black);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-magenta);
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .datetime-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -338,6 +420,10 @@
             .download-options {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .datetime-inputs {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -463,7 +549,7 @@
                     </tbody>
                 </table>
                 
-                <!-- ADD THIS BUTTON FOR CALENDAR INTEGRATION -->
+                <!-- Calendar Button -->
                 <div style="margin-top: 20px; text-align: center;">
                     <button id="create-calendar-btn" class="btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">
                         <i class="far fa-calendar-plus"></i> Create Calendar Invite
@@ -502,6 +588,31 @@
             </div>
         </div>
     </section>
+    
+    <!-- Custom Calendar Modal -->
+    <div class="modal-overlay" id="calendar-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Schedule Check-in</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="event-date" class="form-label">Check-in Date</label>
+                    <input type="date" id="event-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-time" class="form-label">Check-in Time</label>
+                    <input type="time" id="event-time" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="modal-cancel">Cancel</button>
+                <button class="btn-primary" id="modal-confirm">Create Event</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Notification -->
     <div id="notification" class="notification"></div>
     
@@ -1022,32 +1133,60 @@
             showNotification('Your worksheet has been downloaded as a Word document!');
         }
         
-        // Google Calendar Integration
+        // Custom Modal Functionality
+        const calendarModal = document.getElementById('calendar-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalConfirm = document.getElementById('modal-confirm');
+        
+        // Open modal when calendar button is clicked
         document.getElementById('create-calendar-btn').addEventListener('click', function() {
-            createCalendarEvent();
+            calendarModal.classList.add('active');
         });
         
-        function createCalendarEvent() {
-            // Collect form data
-            const partnerName = document.getElementById('partner-name').value.trim();
-            const commitmentShared = document.getElementById('commitment-shared').value.trim();
-            const checkinPlan = document.getElementById('checkin-plan').value.trim();
-            
-            // Get date and time for the meeting
-            const eventDate = prompt("Please enter the check-in date (YYYY-MM-DD):");
-            const eventTime = prompt("Please enter the check-in time (HH:MM):");
+        // Close modal when close button is clicked
+        modalClose.addEventListener('click', function() {
+            calendarModal.classList.remove('active');
+        });
+        
+        // Close modal when cancel button is clicked
+        modalCancel.addEventListener('click', function() {
+            calendarModal.classList.remove('active');
+        });
+        
+        // Handle form submission
+        modalConfirm.addEventListener('click', function() {
+            const eventDate = document.getElementById('event-date').value;
+            const eventTime = document.getElementById('event-time').value;
             
             if (!eventDate || !eventTime) {
                 alert("Please provide both date and time for the calendar event.");
                 return;
             }
             
+            createCalendarEvent(eventDate, eventTime);
+            calendarModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        calendarModal.addEventListener('click', function(e) {
+            if (e.target === calendarModal) {
+                calendarModal.classList.remove('active');
+            }
+        });
+        
+        function createCalendarEvent(eventDate, eventTime) {
+            // Collect form data
+            const partnerName = document.getElementById('partner-name').value.trim();
+            const commitmentShared = document.getElementById('commitment-shared').value.trim();
+            const checkinPlan = document.getElementById('checkin-plan').value.trim();
+            
             // Format Google Calendar quick add URL
             const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
                 `&text=Climate+Action+Check-in+with+${encodeURIComponent(partnerName)}` +
                 `&details=Checking+in+on+our+commitment:+${encodeURIComponent(commitmentShared)}.%0A` +
                 `Meeting+plan:+${encodeURIComponent(checkinPlan)}` +
-                `&dates=${eventDate}T${eventTime}:00/${eventDate}T${parseInt(eventTime)+1}:00`;
+                `&dates=${eventDate}T${eventTime}:00/${eventDate}T${parseInt(eventTime.split(':')[0])+1}:${eventTime.split(':')[1]}:00`;
             
             // Open in new tab
             window.open(calendarUrl, '_blank');
