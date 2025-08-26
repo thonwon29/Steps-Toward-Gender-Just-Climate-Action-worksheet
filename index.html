@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender-Just Climate Action Worksheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
@@ -290,31 +291,38 @@
             border-left: 4px solid var(--accent-pink);
         }
         
-        /* File input styling */
-        .file-input-container {
-            margin: 20px 0;
-            text-align: center;
+        /* Download Options */
+        .download-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
-        .file-input-label {
-            display: inline-block;
-            padding: 10px 20px;
+        .download-option {
             background-color: var(--primary-white);
-            color: var(--accent-pink);
             border: 2px solid var(--accent-pink);
-            border-radius: 5px;
+            color: var(--accent-pink);
+            padding: 15px 25px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
             transition: all 0.3s;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
         }
         
-        .file-input-label:hover {
+        .download-option:hover {
             background-color: var(--accent-pink);
             color: var(--primary-white);
         }
         
-        .file-input {
-            display: none;
+        .download-option i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
         
         /* Responsive */
@@ -334,6 +342,11 @@
             .btn-secondary {
                 margin-left: 0;
                 margin-top: 10px;
+            }
+            
+            .download-options {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -426,15 +439,16 @@
         </div>
         
         <div class="button-container">
-            <button id="save-button" class="btn-primary">Save My Progress</button>
-            <button id="download-button" class="btn-secondary">Download Worksheet</button>
-        </div>
-        
-        <div class="file-input-container">
-            <label for="load-file" class="file-input-label">
-                <i class="fas fa-upload"></i> Load Saved Worksheet
-            </label>
-            <input type="file" id="load-file" class="file-input" accept=".json">
+            <div class="download-options">
+                <div class="download-option" id="download-pdf">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Download as PDF</span>
+                </div>
+                <div class="download-option" id="download-word">
+                    <i class="fas fa-file-word"></i>
+                    <span>Download as Word</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -495,106 +509,276 @@
         </div>
         
         <div class="button-container">
-            <button id="save-button-final" class="btn-primary">Save My Worksheet</button>
-            <button id="download-button-final" class="btn-secondary">Download Worksheet</button>
+            <div class="download-options">
+                <div class="download-option" id="download-pdf-final">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Download as PDF</span>
+                </div>
+                <div class="download-option" id="download-word-final">
+                    <i class="fas fa-file-word"></i>
+                    <span>Download as Word</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Notification -->
-    <div id="notification" class="notification">Your worksheet has been saved!</div>
+    <div id="notification" class="notification"></div>
     
     <script>
-        // Save button functionality
-        document.getElementById('save-button').addEventListener('click', function() {
-            saveWorksheet();
+        // Download PDF functionality
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            downloadAsPDF();
         });
         
-        document.getElementById('save-button-final').addEventListener('click', function() {
-            saveWorksheet();
+        document.getElementById('download-pdf-final').addEventListener('click', function() {
+            downloadAsPDF();
         });
         
-        // Download button functionality
-        document.getElementById('download-button').addEventListener('click', function() {
-            downloadWorksheet();
+        // Download Word functionality
+        document.getElementById('download-word').addEventListener('click', function() {
+            downloadAsWord();
         });
         
-        document.getElementById('download-button-final').addEventListener('click', function() {
-            downloadWorksheet();
+        document.getElementById('download-word-final').addEventListener('click', function() {
+            downloadAsWord();
         });
         
-        // Load file functionality
-        document.getElementById('load-file').addEventListener('change', function(event) {
-            loadWorksheet(event);
-        });
-        
-        function saveWorksheet() {
-            // Collect all form data
-            const worksheetData = {
-                thinking: {
-                    commitment: document.getElementById('thinking-commitment').value,
-                    support: document.getElementById('thinking-support').value
-                },
-                behavior: {
-                    commitment: document.getElementById('behavior-commitment').value,
-                    support: document.getElementById('behavior-support').value
-                },
-                influence: {
-                    commitment: document.getElementById('influence-commitment').value,
-                    support: document.getElementById('influence-support').value
-                },
-                partner: {
-                    name: document.getElementById('partner-name').value,
-                    commitment: document.getElementById('commitment-shared').value,
-                    plan: document.getElementById('checkin-plan').value
-                },
-                reflection: document.getElementById('reflection-notes').value
-            };
-            
-            // Save to localStorage
-            localStorage.setItem('genderJustClimateWorksheet', JSON.stringify(worksheetData));
-            
-            // Show notification
+        function showNotification(message) {
             const notification = document.getElementById('notification');
-            notification.textContent = 'Your worksheet has been saved in your browser!';
+            notification.textContent = message;
             notification.style.display = 'block';
             
-            // Hide notification after 3 seconds
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
-            
-            // In a real application, you would send this data to a server
-            console.log('Worksheet data saved:', worksheetData);
         }
         
-        function downloadWorksheet() {
-            // Collect all form data
-            const worksheetData = {
-                thinking: {
-                    commitment: document.getElementById('thinking-commitment').value,
-                    support: document.getElementById('thinking-support').value
-                },
-                behavior: {
-                    commitment: document.getElementById('behavior-commitment').value,
-                    support: document.getElementById('behavior-support').value
-                },
-                influence: {
-                    commitment: document.getElementById('influence-commitment').value,
-                    support: document.getElementById('influence-support').value
-                },
-                partner: {
-                    name: document.getElementById('partner-name').value,
-                    commitment: document.getElementById('commitment-shared').value,
-                    plan: document.getElementById('checkin-plan').value
-                },
-                reflection: document.getElementById('reflection-notes').value
-            };
+        function downloadAsPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
             
-            // Convert data to JSON string
-            const dataStr = JSON.stringify(worksheetData, null, 2);
+            // Set font size
+            doc.setFontSize(20);
+            doc.text('Steps Toward Gender-Just Climate Action', 20, 30);
             
-            // Create a blob with the data
-            const blob = new Blob([dataStr], {type: 'application/json'});
+            doc.setFontSize(16);
+            doc.text('Action Planning & Accountability Worksheet', 20, 45);
+            
+            // Add a line
+            doc.setLineWidth(0.5);
+            doc.line(20, 50, 190, 50);
+            
+            // Add commitment areas
+            doc.setFontSize(14);
+            doc.text('Commitment Areas', 20, 65);
+            
+            doc.setFontSize(12);
+            
+            // Shift in Thinking
+            doc.text('Shift in Thinking', 20, 80);
+            doc.text('Commitment:', 20, 90);
+            const thinkingCommitment = document.getElementById('thinking-commitment').value;
+            if (thinkingCommitment) {
+                doc.text(thinkingCommitment, 20, 100);
+            } else {
+                doc.text('(No commitment entered)', 20, 100);
+            }
+            
+            doc.text('Support & Accountability:', 20, 115);
+            const thinkingSupport = document.getElementById('thinking-support').value;
+            if (thinkingSupport) {
+                doc.text(thinkingSupport, 20, 125);
+            } else {
+                doc.text('(No support plan entered)', 20, 125);
+            }
+            
+            // Shift in Behavior
+            doc.text('Shift in Behavior', 20, 145);
+            doc.text('Commitment:', 20, 155);
+            const behaviorCommitment = document.getElementById('behavior-commitment').value;
+            if (behaviorCommitment) {
+                doc.text(behaviorCommitment, 20, 165);
+            } else {
+                doc.text('(No commitment entered)', 20, 165);
+            }
+            
+            doc.text('Support & Accountability:', 20, 180);
+            const behaviorSupport = document.getElementById('behavior-support').value;
+            if (behaviorSupport) {
+                doc.text(behaviorSupport, 20, 190);
+            } else {
+                doc.text('(No support plan entered)', 20, 190);
+            }
+            
+            // Shift in Influence
+            doc.text('Shift in Influence', 20, 210);
+            doc.text('Commitment:', 20, 220);
+            const influenceCommitment = document.getElementById('influence-commitment').value;
+            if (influenceCommitment) {
+                doc.text(influenceCommitment, 20, 230);
+            } else {
+                doc.text('(No commitment entered)', 20, 230);
+            }
+            
+            doc.text('Support & Accountability:', 20, 245);
+            const influenceSupport = document.getElementById('influence-support').value;
+            if (influenceSupport) {
+                doc.text(influenceSupport, 20, 255);
+            } else {
+                doc.text('(No support plan entered)', 20, 255);
+            }
+            
+            // Add new page for partner section
+            doc.addPage();
+            doc.setFontSize(14);
+            doc.text('Partner Check-In', 20, 30);
+            
+            doc.setFontSize(12);
+            doc.text('Partner\'s Name:', 20, 45);
+            const partnerName = document.getElementById('partner-name').value;
+            if (partnerName) {
+                doc.text(partnerName, 20, 55);
+            } else {
+                doc.text('(No partner name entered)', 20, 55);
+            }
+            
+            doc.text('Commitment Shared:', 20, 70);
+            const commitmentShared = document.getElementById('commitment-shared').value;
+            if (commitmentShared) {
+                doc.text(commitmentShared, 20, 80);
+            } else {
+                doc.text('(No commitment shared)', 20, 80);
+            }
+            
+            doc.text('Check-in Plan:', 20, 95);
+            const checkinPlan = document.getElementById('checkin-plan').value;
+            if (checkinPlan) {
+                doc.text(checkinPlan, 20, 105);
+            } else {
+                doc.text('(No check-in plan entered)', 20, 105);
+            }
+            
+            // Add new page for reflection
+            doc.addPage();
+            doc.setFontSize(14);
+            doc.text('Reflection Prompts', 20, 30);
+            
+            doc.setFontSize(12);
+            doc.text('Reflections:', 20, 45);
+            const reflectionNotes = document.getElementById('reflection-notes').value;
+            if (reflectionNotes) {
+                doc.text(reflectionNotes, 20, 55);
+            } else {
+                doc.text('(No reflections entered)', 20, 55);
+            }
+            
+            // Save the PDF
+            doc.save('climate-action-worksheet.pdf');
+            
+            showNotification('Your worksheet has been downloaded as a PDF file!');
+        }
+        
+        function downloadAsWord() {
+            // Create HTML content for Word document
+            const htmlContent = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Gender-Just Climate Action Worksheet</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            line-height: 1.6;
+                            margin: 20px;
+                            color: #000000;
+                        }
+                        h1 {
+                            color: #e91e63;
+                            border-bottom: 2px solid #e91e63;
+                            padding-bottom: 5px;
+                        }
+                        h2 {
+                            color: #000000;
+                            margin-top: 25px;
+                            margin-bottom: 15px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 20px;
+                        }
+                        th, td {
+                            border: 1px solid #dee2e6;
+                            padding: 10px;
+                            vertical-align: top;
+                        }
+                        th {
+                            background-color: #f8f9fa;
+                            font-weight: bold;
+                        }
+                        .section {
+                            margin-bottom: 25px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Steps Toward Gender-Just Climate Action</h1>
+                    <h2>Action Planning & Accountability Worksheet</h2>
+                    
+                    <div class="section">
+                        <h2>Commitment Areas</h2>
+                        <table>
+                            <tr>
+                                <th>Area of Shift</th>
+                                <th>My Commitment</th>
+                                <th>Support & Accountability</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Shift in Thinking</strong><br>One belief, assumption, or mindset I will rethink.</td>
+                                <td>${document.getElementById('thinking-commitment').value || '(No commitment entered)'}</td>
+                                <td>${document.getElementById('thinking-support').value || '(No support plan entered)'}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shift in Behavior</strong><br>One personal habit I will change.</td>
+                                <td>${document.getElementById('behavior-commitment').value || '(No commitment entered)'}</td>
+                                <td>${document.getElementById('behavior-support').value || '(No support plan entered)'}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shift in Influence</strong><br>One professional or systemic action I will take.</td>
+                                <td>${document.getElementById('influence-commitment').value || '(No commitment entered)'}</td>
+                                <td>${document.getElementById('influence-support').value || '(No support plan entered)'}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Partner Check-In</h2>
+                        <table>
+                            <tr>
+                                <th>Partner's Name</th>
+                                <th>My Commitment Shared</th>
+                                <th>Our Check-in Plan</th>
+                            </tr>
+                            <tr>
+                                <td>${document.getElementById('partner-name').value || '(No partner name entered)'}</td>
+                                <td>${document.getElementById('commitment-shared').value || '(No commitment shared)'}</td>
+                                <td>${document.getElementById('checkin-plan').value || '(No check-in plan entered)'}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Reflection Prompts</h2>
+                        <p><strong>Reflections:</strong></p>
+                        <p>${document.getElementById('reflection-notes').value || '(No reflections entered)'}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            // Create a blob with the HTML content
+            const blob = new Blob([htmlContent], { type: 'application/msword' });
             
             // Create a URL for the blob
             const url = URL.createObjectURL(blob);
@@ -602,7 +786,7 @@
             // Create a temporary link to trigger the download
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'climate-action-worksheet.json';
+            a.download = 'climate-action-worksheet.doc';
             
             // Append the link to the body
             document.body.appendChild(a);
@@ -613,91 +797,8 @@
             // Remove the link from the body
             document.body.removeChild(a);
             
-            // Show notification
-            const notification = document.getElementById('notification');
-            notification.textContent = 'Your worksheet has been downloaded to your computer!';
-            notification.style.display = 'block';
-            
-            // Hide notification after 3 seconds
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+            showNotification('Your worksheet has been downloaded as a Word document!');
         }
-        
-        function loadWorksheet(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    // Populate form fields
-                    document.getElementById('thinking-commitment').value = data.thinking.commitment || '';
-                    document.getElementById('thinking-support').value = data.thinking.support || '';
-                    
-                    document.getElementById('behavior-commitment').value = data.behavior.commitment || '';
-                    document.getElementById('behavior-support').value = data.behavior.support || '';
-                    
-                    document.getElementById('influence-commitment').value = data.influence.commitment || '';
-                    document.getElementById('influence-support').value = data.influence.support || '';
-                    
-                    document.getElementById('partner-name').value = data.partner.name || '';
-                    document.getElementById('commitment-shared').value = data.partner.commitment || '';
-                    document.getElementById('checkin-plan').value = data.partner.plan || '';
-                    
-                    document.getElementById('reflection-notes').value = data.reflection || '';
-                    
-                    // Show notification
-                    const notification = document.getElementById('notification');
-                    notification.textContent = 'Your worksheet has been loaded successfully!';
-                    notification.style.display = 'block';
-                    
-                    // Hide notification after 3 seconds
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 3000);
-                    
-                } catch (error) {
-                    // Show error notification
-                    const notification = document.getElementById('notification');
-                    notification.textContent = 'Error loading worksheet. Please make sure you selected a valid worksheet file.';
-                    notification.style.display = 'block';
-                    
-                    // Hide notification after 3 seconds
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 3000);
-                }
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // Load saved data if it exists
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedData = localStorage.getItem('genderJustClimateWorksheet');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                
-                // Populate form fields
-                document.getElementById('thinking-commitment').value = data.thinking.commitment || '';
-                document.getElementById('thinking-support').value = data.thinking.support || '';
-                
-                document.getElementById('behavior-commitment').value = data.behavior.commitment || '';
-                document.getElementById('behavior-support').value = data.behavior.support || '';
-                
-                document.getElementById('influence-commitment').value = data.influence.commitment || '';
-                document.getElementById('influence-support').value = data.influence.support || '';
-                
-                document.getElementById('partner-name').value = data.partner.name || '';
-                document.getElementById('commitment-shared').value = data.partner.commitment || '';
-                document.getElementById('checkin-plan').value = data.partner.plan || '';
-                
-                document.getElementById('reflection-notes').value = data.reflection || '';
-            }
-        });
         
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
