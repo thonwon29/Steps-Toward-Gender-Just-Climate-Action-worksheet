@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver/dist/FileSaver.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
@@ -449,7 +451,7 @@
     
     <!-- Main Content - Page 1 -->
     <main class="main-content" id="worksheet">
-        <h2 class="section-title">Your Climate Action Plan</h2>
+        <h2 class="section-title">My Climate Action Plan</h2>
         <p class="section-subtitle">Use this worksheet to identify three shifts you are ready to make.</p>
         
         <div class="card">
@@ -627,7 +629,7 @@
             downloadAsPDF();
         });
         
-        // Download Word functionality
+        // Download Word document functionality
         document.getElementById('download-word').addEventListener('click', function() {
             downloadAsWord();
         });
@@ -657,81 +659,175 @@
             const checkinPlan = document.getElementById('checkin-plan').value;
             const reflectionNotes = document.getElementById('reflection-notes').value;
             
-            // Create PDF
+            // Create PDF with the format matching the reference image
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Page 1
-            doc.setFontSize(16);
-            doc.text("Steps Toward Gender-Just Climate Action", 105, 20, null, null, "center");
-            doc.setFontSize(12);
-            doc.text("Action Planning & Accountability Worksheet", 105, 35, null, null, "center");
+            // Add title
+            doc.setFontSize(18);
+            doc.text("Gender-Just Climate Action Worksheet", 105, 20, null, null, "center");
             
-            doc.setLineWidth(0.5);
-            doc.line(20, 45, 190, 45);
-            
+            // My Climate Action Plan
             doc.setFontSize(14);
-            doc.text("Commitment Areas", 20, 60);
+            doc.text("My Climate Action Plan", 20, 40);
             
-            doc.setFontSize(11);
-            doc.text("Area of Shift", 25, 75);
-            doc.text("My Commitment", 95, 75);
-            doc.text("Support & Accountability", 160, 75);
-            
+            // Shift in Thinking
             doc.setFontSize(12);
-            doc.text("Shift in Thinking", 25, 90);
-            doc.text("(No commitment entered)", 95, 90);
-            doc.text("(No support plan entered)", 160, 90);
+            doc.text("Shift in Thinking:", 20, 55);
+            doc.text(thinkingCommitment || "(No commitment entered)", 30, 70);
+            doc.text("Support & Accountability:", 20, 85);
+            doc.text(thinkingSupport || "(No support details entered)", 30, 100);
             
-            doc.text("One belief, assumption, or mindset I will rethink.", 25, 105);
+            // Shift in Behavior
+            doc.text("Shift in Behavior:", 20, 120);
+            doc.text(behaviorCommitment || "(No commitment entered)", 30, 135);
+            doc.text("Support & Accountability:", 20, 150);
+            doc.text(behaviorSupport || "(No support details entered)", 30, 165);
             
-            doc.text("Shift in Behavior", 25, 125);
-            doc.text("(No commitment entered)", 95, 125);
-            doc.text("(No support plan entered)", 160, 125);
+            // Shift in Influence
+            doc.text("Shift in Influence:", 20, 185);
+            doc.text(influenceCommitment || "(No commitment entered)", 30, 200);
+            doc.text("Support & Accountability:", 20, 215);
+            doc.text(influenceSupport || "(No support details entered)", 30, 230);
             
-            doc.text("One personal habit I will change.", 25, 140);
+            // Optional Partner Check-In
+            doc.text("Optional Partner Check-In", 20, 250);
             
-            doc.text("Shift in Influence", 25, 160);
-            doc.text("(No commitment entered)", 95, 160);
-            doc.text("(No support plan entered)", 160, 160);
+            doc.text("Partner's Name:", 20, 270);
+            doc.text(partnerName || "Not specified", 30, 285);
             
-            doc.text("One professional or systemic action I will take.", 25, 175);
+            doc.text("My Commitment Shared:", 20, 310);
+            doc.text(commitmentShared || "No commitment shared", 30, 325);
             
-            // Page 2
-            doc.addPage();
+            doc.text("Our Check-in Plan:", 20, 340);
+            doc.text(checkinPlan || "No check-in plan", 30, 355);
             
-            doc.setFontSize(14);
-            doc.text("Optional Partner Check-In", 20, 20);
+            // Reflection Prompts
+            doc.text("Reflection Prompts", 20, 380);
             
-            doc.setFontSize(11);
-            doc.text("Partner's Name", 25, 35);
-            doc.text("My Commitment Shared", 95, 35);
-            doc.text("Our Check-in Plan", 160, 35);
-            
-            doc.setFontSize(12);
-            doc.text("(No partner name entered)", 25, 50);
-            doc.text("(No commitment shared)", 95, 50);
-            doc.text("(No check-in plan entered)", 160, 50);
-            
-            doc.setFontSize(14);
-            doc.text("Reflection Prompts", 20, 85);
-            
-            doc.setFontSize(11);
-            doc.text("Consider these questions to deepen your commitment.", 25, 100);
-            doc.text("What barriers might I face, and how will I address them?", 35, 115);
-            doc.text("What small wins will help me stay motivated?", 35, 130);
-            doc.text("How will I celebrate progress?", 35, 145);
-            
-            doc.setFontSize(12);
-            doc.text("My Reflections:", 25, 170);
-            doc.text("(No reflections entered)", 35, 185);
+            doc.text("What barriers might I face, and how will I address them?", 20, 400);
+            doc.text(reflectionNotes || "", 30, 420);
             
             doc.save("gender-just-climate-action-worksheet.pdf");
         }
         
         function downloadAsWord() {
             showNotification('Your worksheet has been downloaded as a Word document!');
-            alert("Word document download simulated. In a production environment, this would generate a .docx file.");
+            
+            // Get form values
+            const thinkingCommitment = document.getElementById('thinking-commitment').value;
+            const thinkingSupport = document.getElementById('thinking-support').value;
+            const behaviorCommitment = document.getElementById('behavior-commitment').value;
+            const behaviorSupport = document.getElementById('behavior-support').value;
+            const influenceCommitment = document.getElementById('influence-commitment').value;
+            const influenceSupport = document.getElementById('influence-support').value;
+            const partnerName = document.getElementById('partner-name').value;
+            const commitmentShared = document.getElementById('commitment-shared').value;
+            const checkinPlan = document.getElementById('checkin-plan').value;
+            const reflectionNotes = document.getElementById('reflection-notes').value;
+            
+            // Create Word document
+            const doc = new docx.Document({
+                sections: [{
+                    properties: {},
+                    children: [
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Gender-Just Climate Action Worksheet", bold: true, size: 24 })],
+                            alignment: docx.AlignmentType.CENTER,
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Action Planning & Accountability Worksheet", size: 16 })],
+                            alignment: docx.AlignmentType.CENTER,
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "My Climate Action Plan", bold: true, size: 18 })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Shift in Thinking:" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "My Commitment: " + (thinkingCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Support & Accountability: " + (thinkingSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Shift in Behavior:" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "My Commitment: " + (behaviorCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Support & Accountability: " + (behaviorSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Shift in Influence:" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "My Commitment: " + (influenceCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Support & Accountability: " + (influenceSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Optional Partner Check-In" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Partner's Name: " + (partnerName || "Not specified") })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "My Commitment Shared: " + (commitmentShared || "No commitment shared") })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Our Check-in Plan: " + (checkinPlan || "No check-in plan") })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "Reflection Prompts" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "" })]
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: "What barriers might I face, and how will I address them?" })],
+                        }),
+                        new docx.Paragraph({
+                            children: [new docx.TextRun({ text: reflectionNotes || "" })],
+                        }),
+                    ]
+                }]
+            });
+            
+            // Save the document
+            docx.Packer.toBlob(doc).then(blob => {
+                saveAs(blob, "gender-just-climate-action-worksheet.docx");
+            });
         }
         
         // Custom Modal Functionality
