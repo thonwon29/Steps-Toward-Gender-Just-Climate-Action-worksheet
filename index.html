@@ -100,6 +100,26 @@
             background-color: var(--pink-dark);
         }
         
+        .btn-secondary {
+            background-color: var(--primary-white);
+            color: var(--accent-pink);
+            border: 2px solid var(--accent-pink);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent-pink);
+            color: var(--primary-white);
+        }
+        
         /* Main Content */
         .main-content {
             max-width: 900px;
@@ -270,6 +290,33 @@
             border-left: 4px solid var(--accent-pink);
         }
         
+        /* File input styling */
+        .file-input-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-white);
+            color: var(--accent-pink);
+            border: 2px solid var(--accent-pink);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background-color: var(--accent-pink);
+            color: var(--primary-white);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -282,6 +329,11 @@
             
             .custom-table th, .custom-table td {
                 padding: 10px;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 10px;
             }
         }
     </style>
@@ -375,6 +427,14 @@
         
         <div class="button-container">
             <button id="save-button" class="btn-primary">Save My Progress</button>
+            <button id="download-button" class="btn-secondary">Download Worksheet</button>
+        </div>
+        
+        <div class="file-input-container">
+            <label for="load-file" class="file-input-label">
+                <i class="fas fa-upload"></i> Load Saved Worksheet
+            </label>
+            <input type="file" id="load-file" class="file-input" accept=".json">
         </div>
     </main>
 
@@ -436,6 +496,7 @@
         
         <div class="button-container">
             <button id="save-button-final" class="btn-primary">Save My Worksheet</button>
+            <button id="download-button-final" class="btn-secondary">Download Worksheet</button>
         </div>
     </section>
 
@@ -450,6 +511,20 @@
         
         document.getElementById('save-button-final').addEventListener('click', function() {
             saveWorksheet();
+        });
+        
+        // Download button functionality
+        document.getElementById('download-button').addEventListener('click', function() {
+            downloadWorksheet();
+        });
+        
+        document.getElementById('download-button-final').addEventListener('click', function() {
+            downloadWorksheet();
+        });
+        
+        // Load file functionality
+        document.getElementById('load-file').addEventListener('change', function(event) {
+            loadWorksheet(event);
         });
         
         function saveWorksheet() {
@@ -480,6 +555,7 @@
             
             // Show notification
             const notification = document.getElementById('notification');
+            notification.textContent = 'Your worksheet has been saved in your browser!';
             notification.style.display = 'block';
             
             // Hide notification after 3 seconds
@@ -489,6 +565,114 @@
             
             // In a real application, you would send this data to a server
             console.log('Worksheet data saved:', worksheetData);
+        }
+        
+        function downloadWorksheet() {
+            // Collect all form data
+            const worksheetData = {
+                thinking: {
+                    commitment: document.getElementById('thinking-commitment').value,
+                    support: document.getElementById('thinking-support').value
+                },
+                behavior: {
+                    commitment: document.getElementById('behavior-commitment').value,
+                    support: document.getElementById('behavior-support').value
+                },
+                influence: {
+                    commitment: document.getElementById('influence-commitment').value,
+                    support: document.getElementById('influence-support').value
+                },
+                partner: {
+                    name: document.getElementById('partner-name').value,
+                    commitment: document.getElementById('commitment-shared').value,
+                    plan: document.getElementById('checkin-plan').value
+                },
+                reflection: document.getElementById('reflection-notes').value
+            };
+            
+            // Convert data to JSON string
+            const dataStr = JSON.stringify(worksheetData, null, 2);
+            
+            // Create a blob with the data
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            
+            // Create a URL for the blob
+            const url = URL.createObjectURL(blob);
+            
+            // Create a temporary link to trigger the download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'climate-action-worksheet.json';
+            
+            // Append the link to the body
+            document.body.appendChild(a);
+            
+            // Click the link to trigger the download
+            a.click();
+            
+            // Remove the link from the body
+            document.body.removeChild(a);
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.textContent = 'Your worksheet has been downloaded to your computer!';
+            notification.style.display = 'block';
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        function loadWorksheet(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Populate form fields
+                    document.getElementById('thinking-commitment').value = data.thinking.commitment || '';
+                    document.getElementById('thinking-support').value = data.thinking.support || '';
+                    
+                    document.getElementById('behavior-commitment').value = data.behavior.commitment || '';
+                    document.getElementById('behavior-support').value = data.behavior.support || '';
+                    
+                    document.getElementById('influence-commitment').value = data.influence.commitment || '';
+                    document.getElementById('influence-support').value = data.influence.support || '';
+                    
+                    document.getElementById('partner-name').value = data.partner.name || '';
+                    document.getElementById('commitment-shared').value = data.partner.commitment || '';
+                    document.getElementById('checkin-plan').value = data.partner.plan || '';
+                    
+                    document.getElementById('reflection-notes').value = data.reflection || '';
+                    
+                    // Show notification
+                    const notification = document.getElementById('notification');
+                    notification.textContent = 'Your worksheet has been loaded successfully!';
+                    notification.style.display = 'block';
+                    
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                    
+                } catch (error) {
+                    // Show error notification
+                    const notification = document.getElementById('notification');
+                    notification.textContent = 'Error loading worksheet. Please make sure you selected a valid worksheet file.';
+                    notification.style.display = 'block';
+                    
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                }
+            };
+            
+            reader.readAsText(file);
         }
         
         // Load saved data if it exists
