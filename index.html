@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender-Just Climate Action Worksheet</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
@@ -63,16 +62,10 @@
             border-bottom: 1px solid var(--border-color);
         }
         
-        .hero-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
         .hero h1 {
             font-size: 3rem;
-            margin-bottom: 20px;
             font-weight: 700;
-            color: var(--text-black);
+            margin: 0;
         }
         
         .hero p {
@@ -191,12 +184,6 @@
             color: var(--text-black);
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-magenta);
-            box-shadow: 0 0 0 2px rgba(227, 28, 121, 0.25);
-        }
-        
         textarea.form-control {
             min-height: 150px;
             resize: vertical;
@@ -261,6 +248,7 @@
         .reflection-list {
             list-style-type: none;
             margin-bottom: 20px;
+            padding-left: 0;
         }
         
         .reflection-list li {
@@ -290,9 +278,9 @@
         }
         
         .download-option {
-            background-color: var(--primary-white);
+            background-color: var(--accent-magenta);
+            color: var(--primary-white);
             border: 2px solid var(--accent-magenta);
-            color: var(--accent-magenta);
             padding: 15px 25px;
             border-radius: 8px;
             cursor: pointer;
@@ -301,11 +289,10 @@
             flex: 1;
             min-width: 200px;
             max-width: 300px;
-        }
-        
-        .download-option:hover {
-            background-color: var(--accent-magenta);
-            color: var(--primary-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .download-option i {
@@ -330,27 +317,23 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
         .modal {
             background-color: var(--primary-white);
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             width: 90%;
             max-width: 500px;
             padding: 25px;
             transform: translateY(-20px);
             transition: transform 0.3s ease;
         }
-
         .modal-overlay.active .modal {
             transform: translateY(0);
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -359,14 +342,12 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .modal-title {
             color: var(--text-black);
             font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
         }
-
         .modal-close {
             background: none;
             border: none;
@@ -375,66 +356,33 @@
             color: var(--text-gray);
             transition: color 0.3s;
         }
-
         .modal-close:hover {
             color: var(--accent-magenta);
         }
-
         .modal-body {
             margin-bottom: 20px;
         }
-
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-
         .datetime-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-
         .notification {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background-color: var(--accent-magenta);
-            color: white;
+            color: var(--primary-white);
             padding: 15px 25px;
             border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: none;
             z-index: 1000;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .custom-table th, .custom-table td {
-                padding: 10px;
-            }
-            
-            .btn-secondary {
-                margin-left: 0;
-                margin-top: 10px;
-            }
-            
-            .download-options {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .datetime-inputs {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -555,7 +503,7 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <textarea id="checkin-plan" class="form-control" placeholder="How and when will you check in?"></textarea>
+                                <textarea id="checkin-plan" class="form-control" placeholder="How and when will you check in?"></textarea>
                                 </div>
                             </td>
                         </tr>
@@ -565,7 +513,8 @@
                 <!-- Calendar Button -->
                 <div style="margin-top: 20px; text-align: center;">
                     <button id="create-calendar-btn" class="btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">
-                        <i class="far fa-calendar-plus"></i> Create Calendar Invite
+                        <i class="far fa-calendar-plus"></i>
+                        <span>Create Calendar Invite</span>
                     </button>
                 </div>
             </div>
@@ -631,374 +580,566 @@
     <div id="notification" class="notification"></div>
     
     <script>
-        // Download PDF functionality
-        document.getElementById('download-pdf').addEventListener('click', function() {
-            downloadAsPDF();
-        });
-        
         // Download Word functionality
         document.getElementById('download-word').addEventListener('click', function() {
-            downloadAsWord();
+            generateAndDownloadWordDocument();
         });
-        
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
+        function generateAndDownloadWordDocument() {
+            // Get form values
+            const thinkingCommitment = document.getElementById('thinking-commitment').value || '(No commitment entered)';
+            const thinkingSupport = document.getElementById('thinking-support').value || '(No support plan entered)';
+            const behaviorCommitment = document.getElementById('behavior-commitment').value || '(No commitment entered)';
+            const behaviorSupport = document.getElementById('behavior-support').value || '(No support plan entered)';
+            const influenceCommitment = document.getElementById('influence-commitment').value || '(No commitment entered)';
+            const influenceSupport = document.getElementById('influence-support').value || '(No support plan entered)';
+            const partnerName = document.getElementById('partner-name').value || '(No partner name entered)';
+            const commitmentShared = document.getElementById('commitment-shared').value || '(No commitment shared)';
+            const checkinPlan = document.getElementById('checkin-plan').value || '(No check-in plan entered)';
+            const reflectionNotes = document.getElementById('reflection-notes').value || '(No reflections entered)';
+            // Create PDF document
+            const pdf = new jsPDF();
             
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-        
-        function downloadAsPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Set document properties
-            doc.setProperties({
-                title: 'Climate Action Worksheet',
-                subject: 'Gender-Just Climate Action Plan',
-                author: 'Climate Action App',
-                keywords: 'climate, action, gender, worksheet',
-                creator: 'Climate Action App'
+            // Add HTML content to PDF
+            pdf.html(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Gender-Just Climate Action Worksheet</title>
+                    <style>
+                        :root {
+                            --primary-white: #ffffff;
+                            --text-black: #232121;      
+                            --accent-magenta: #e31c79;  
+                            --light-gray: #f8f9fa;
+                            --medium-gray: #e9ecef;
+                            --dark-gray: #212529;
+                            --text-gray: #6c757d;
+                            --border-color: #dee2e6;
+                            --magenta-dark: #c2185b;   
+                        }
+                        
+                        * {
+                            box-sizing: border-box;
+                            margin: 0;
+                            padding: 0;
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        }
+                        
+                        body {
+                            background-color: var(--primary-white);
+                            color: var(--text-black);
+                            line-height: 1.6;
+                        }
+                        
+                        .header {
+                            background-color: var(--primary-white);
+                            color: var(--text-black);
+                            padding: 15px 0;
+                            text-align: center;
+                            border-bottom: 2px solid var(--accent-magenta);
+                        }
+                        
+                        .hero {
+                            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1542606996-3bc83eec6a6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+                            background-size: cover;
+                            background-position: center;
+                            color: var(--text-black);
+                            padding: 80px 20px;
+                            text-align: center;
+                        }
+                        
+                        .hero h1 {
+                            font-size: 2.5rem;
+                            font-weight: 700;
+                            margin: 0;
+                        }
+                        
+                        .hero p {
+                            font-size: 1.2rem;
+                            max-width: 700px;
+                            margin: 0 auto 30px;
+                            color: var(--text-black);
+                        }
+                        
+                        .btn-primary {
+                            background-color: var(--accent-magenta);
+                            color: var(--primary-white);
+                            border: none;
+                            padding: 12px 25px;
+                            font-size: 1rem;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                            font-weight: 600;
+                            text-decoration: none;
+                            display: inline-block;
+                        }
+                        
+                        .btn-primary:hover {
+                            background-color: var(--magenta-dark);
+                        }
+                        
+                        .btn-secondary {
+                            background-color: var(--primary-white);
+                            color: var(--accent-magenta);
+                            border: 2px solid var(--accent-magenta);
+                            padding: 10px 20px;
+                            font-size: 0.9rem;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                            font-weight: 600;
+                            text-decoration: none;
+                            display: inline-block;
+                            margin-left: 10px;
+                        }
+                        
+                        .btn-secondary:hover {
+                            background-color: var(--accent-magenta);
+                            color: var(--primary-white);
+                        }
+                        
+                        .main-content {
+                            max-width: 900px;
+                            margin: 0 auto;
+                            padding: 40px 20px;
+                            background-color: var(--primary-white);
+                        }
+                        
+                        .section-title {
+                            color: var(--text-black);
+                            font-size: 2rem;
+                            margin-bottom: 15px;
+                            font-weight: 700;
+                            position: relative;
+                            padding-bottom: 10px;
+                        }
+                        
+                        .section-title::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 60px;
+                            height: 3px;
+                            background-color: var(--accent-magenta);
+                        }
+                        
+                        .section-subtitle {
+                            color: var(--text-gray);
+                            font-size: 1.1rem;
+                            margin-bottom: 30px;
+                        }
+                        
+                        .card {
+                            background-color: var(--primary-white);
+                            border-radius: 8px;
+                            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                            padding: 25px;
+                            margin-bottom: 30px;
+                            border: 1px solid var(--border-color);
+                        }
+                        
+                        .card-title {
+                            color: var(--text-black);
+                            font-size: 1.5rem;
+                            margin-bottom: 15px;
+                            font-weight: 600;
+                        }
+                        
+                        .form-group {
+                            margin-bottom: 20px;
+                        }
+                        
+                        .form-label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: 600;
+                            color: var(--text-black);
+                        }
+                        
+                        .form-control {
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid var(--border-color);
+                            border-radius: 4px;
+                            font-family: inherit;
+                            font-size: 1rem;
+                            transition: border-color 0.3s;
+                            background-color: var(--primary-white);
+                            color: var(--text-black);
+                        }
+                        
+                        textarea.form-control {
+                            min-height: 150px;
+                            resize: vertical;
+                        }
+                        
+                        .custom-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 30px;
+                        }
+                        
+                        .custom-table th {
+                            background-color: var(--primary-white);
+                            color: var(--text-black);
+                            padding: 15px;
+                            text-align: left;
+                            font-weight: 600;
+                            border-bottom: 2px solid var(--accent-magenta);
+                        }
+                        
+                        .custom-table td {
+                            padding: 15px;
+                            border-bottom: 1px solid var(--border-color);
+                            vertical-align: top;
+                            background-color: var(--primary-white);
+                            color: var(--text-black);
+                        }
+                        
+                        .custom-table tr:last-child td {
+                            border-bottom: none;
+                        }
+                        
+                        .custom-table tr:nth-child(even) td {
+                            background-color: var(--light-gray);
+                        }
+                        
+                        .custom-table th:first-child,
+                        .custom-table td:first-child {
+                            width: 20%;
+                        }
+                        
+                        .custom-table th:nth-child(2),
+                        .custom-table td:nth-child(2) {
+                            width: 40%;
+                        }
+                        
+                        .custom-table th:nth-child(3),
+                        .custom-table td:nth-child(3) {
+                            width: 40%;
+                        }
+                        
+                        .light-section {
+                            background-color: var(--light-gray);
+                            padding: 40px 20px;
+                        }
+                        
+                        .section-container {
+                            max-width: 900px;
+                            margin: 0 auto;
+                        }
+                        
+                        .reflection-list {
+                            list-style-type: none;
+                            margin-bottom: 20px;
+                            padding-left: 0;
+                        }
+                        
+                        .reflection-list li {
+                            margin-bottom: 12px;
+                            padding-left: 25px;
+                            position: relative;
+                        }
+                        
+                        .reflection-list li:before {
+                            content: "•";
+                            color: var(--accent-magenta);
+                            font-weight: bold;
+                            position: absolute;
+                            left: 0;
+                        }
+                        
+                        .button-container {
+                            text-align: center;
+                            margin: 30px 0;
+                        }
+                        
+                        .download-options {
+                            display: flex;
+                            justify-content: center;
+                            gap: 15px;
+                            flex-wrap: wrap;
+                        }
+                        
+                        .download-option {
+                            background-color: var(--accent-magenta);
+                            color: var(--primary-white);
+                            border: 2px solid var(--accent-magenta);
+                            padding: 15px 25px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                            text-align: center;
+                            flex: 1;
+                            min-width: 200px;
+                            max-width: 300px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        
+                        .download-option i {
+                            display: block;
+                            font-size: 2rem;
+                            margin-bottom: 10px;
+                        }
+                        
+                        /* Custom Modal Styles */
+                        .modal-overlay {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background-color: rgba(0, 0, 0, 0.5);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 2000;
+                            opacity: 0;
+                            visibility: hidden;
+                            transition: all 0.3s ease;
+                        }
+                        .modal-overlay.active {
+                            opacity: 1;
+                            visibility: visible;
+                        }
+                        .modal {
+                            background-color: var(--primary-white);
+                            border-radius: 8px;
+                            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                            width: 90%;
+                            max-width: 500px;
+                            padding: 25px;
+                            transform: translateY(-20px);
+                            transition: transform 0.3s ease;
+                        }
+                        .modal-overlay.active .modal {
+                            transform: translateY(0);
+                        }
+                        .modal-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 20px;
+                            padding-bottom: 15px;
+                            border-bottom: 1px solid var(--border-color);
+                        }
+                        .modal-title {
+                            color: var(--text-black);
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            margin: 0;
+                        }
+                        .modal-close {
+                            background: none;
+                            border: none;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            color: var(--text-gray);
+                            transition: color 0.3s;
+                        }
+                        .modal-close:hover {
+                            color: var(--accent-magenta);
+                        }
+                        .modal-body {
+                            margin-bottom: 20px;
+                        }
+                        .modal-footer {
+                            display: flex;
+                            justify-content: flex-end;
+                            gap: 10px;
+                        }
+                        .datetime-inputs {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 15px;
+                        }
+                        .notification {
+                            position: fixed;
+                            bottom: 20px;
+                            right: 20px;
+                            background-color: var(--accent-magenta);
+                            color: var(--primary-white);
+                            padding: 15px 25px;
+                            border-radius: 5px;
+                            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                            display: none;
+                            z-index: 1000;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h2>Gender-Just Climate Action</h2>
+                    </div>
+                    
+                    <div class="hero">
+                        <h1>Steps Toward Gender-Just Climate Action</h1>
+                        <p>Action Planning & Accountability Worksheet</p>
+                    </div>
+                    
+                    <div class="main-content">
+                        <h2 class="section-title">Commitment Areas</h2>
+                        <p class="section-subtitle">Use this worksheet to identify three shifts you are ready to make.</p>
+                        
+                        <div class="card">
+                            <h3 class="card-title">Commitment Areas</h3>
+                            
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Area of Shift</th>
+                                        <th>My Commitment</th>
+                                        <th>Support & Accountability</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-label">Shift in Thinking</div>
+                                            <p>One belief, assumption, or mindset I will rethink.</p>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="thinking-commitment" class="form-control" placeholder="Example: I will rethink my definition of leadership to value collaboration and emotional intelligence.">${thinkingCommitment}</textarea>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="thinking-support" class="form-control" placeholder="Who or what will support this shift? (e.g., reading groups, mentors, podcasts)">${thinkingSupport}</textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-label">Shift in Behavior</div>
+                                            <p>One personal habit I will change.</p>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="behavior-commitment" class="form-control" placeholder="Example: I will advocate for plant-based catering at work events.">${behaviorCommitment}</textarea>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="behavior-support" class="form-control" placeholder="What will keep me accountable? (e.g., peer partner, reminder app)">${behaviorSupport}</textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-label">Shift in Influence</div>
+                                            <p>One professional or systemic action I will take.</p>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="influence-commitment" class="form-control" placeholder="Example: I will push for a gender equity assessment in our community climate plan.">${influenceCommitment}</textarea>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea id="influence-support" class="form-control" placeholder="Who will I check in with and by when?">${influenceSupport}</textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="light-section">
+                        <div class="section-container">
+                            <h2 class="section-title">Optional Partner Check-In</h2>
+                            <p class="section-subtitle">Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
+                            
+                            <div class="card">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Partner's Name</th>
+                                            <th>My Commitment Shared</th>
+                                            <th>Our Check-in Plan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="partner-name" class="form-control" placeholder="Enter partner's name">${partnerName}</input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea id="commitment-shared" class="form-control" placeholder="Which commitment will you share?">${commitmentShared}</textarea>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                <textarea id="checkin-plan" class="form-control" placeholder="How and when will you check in?">${checkinPlan}</textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <!-- Calendar Button -->
+                                <div style="margin-top: 20px; text-align: center;">
+                                    <button id="create-calendar-btn" class="btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">
+                                        <i class="far fa-calendar-plus"></i>
+                                        <span>Create Calendar Invite</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="main-content">
+                        <h2 class="section-title">Reflection Prompts (Optional)</h2>
+                        <p class="section-subtitle">Consider these questions to deepen your commitment.</p>
+                        
+                        <div class="card">
+                            <ul class="reflection-list">
+                                <li>What barriers might I face, and how will I address them?</li>
+                                <li>What small wins will help me stay motivated?</li>
+                                <li>How will I celebrate progress?</li>
+                            </ul>
+                            
+                            <div class="form-group">
+                                <textarea id="reflection-notes" class="form-control" placeholder="Add your reflections here...">${reflectionNotes}</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <div class="download-options">
+                                <div class="download-option" id="download-pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <span>Download as PDF</span>
+                                </div>
+                                <div class="download-option" id="download-word">
+                                    <i class="fas fa-file-word"></i>
+                                    <span>Download as Word</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </body>
+                </html>
+            `, {
+                width: 900,
+                margin: [20, 20, 20, 20],
+                orientation: 'portrait'
             });
             
-            // Add title
-            doc.setFontSize(20);
-            doc.setFont(undefined, 'bold');
-            doc.text("Steps Toward Gender-Just Climate Action", 105, 20, { align: 'center' });
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'normal');
-            doc.text("Action Planning & Accountability Worksheet", 105, 30, { align: 'center' });
-            
-            // Add commitment areas table
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text("Commitment Areas", 20, 50);
-            
-            // Table headers
-            doc.setFillColor(240, 240, 240);
-            doc.rect(20, 60, 170, 10, 'F');
-            doc.text("Area of Shift", 25, 67);
-            doc.text("My Commitment", 75, 67);
-            doc.text("Support & Accountability", 135, 67);
-            
-            // Get form values
-            const thinkingCommitment = document.getElementById('thinking-commitment').value || "(No commitment entered)";
-            const thinkingSupport = document.getElementById('thinking-support').value || "(No support plan entered)";
-            const behaviorCommitment = document.getElementById('behavior-commitment').value || "(No commitment entered)";
-            const behaviorSupport = document.getElementById('behavior-support').value || "(No support plan entered)";
-            const influenceCommitment = document.getElementById('influence-commitment').value || "(No commitment entered)";
-            const influenceSupport = document.getElementById('influence-support').value || "(No support plan entered)";
-            
-            // Table rows
-            let y = 80;
-            
-            // Shift in Thinking row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Thinking", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One belief, assumption, or mindset I will rethink.", 25, y + 5);
-            
-            doc.setFont(undefined, 'normal');
-            const thinkingCommitmentLines = doc.splitTextToSize(thinkingCommitment, 50);
-            doc.text(thinkingCommitmentLines, 75, y);
-            
-            const thinkingSupportLines = doc.splitTextToSize(thinkingSupport, 50);
-            doc.text(thinkingSupportLines, 135, y);
-            
-            y += Math.max(thinkingCommitmentLines.length * 7, thinkingSupportLines.length * 7, 10) + 10;
-            
-            // Shift in Behavior row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Behavior", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One personal habit I will change.", 25, y + 5);
-            
-            const behaviorCommitmentLines = doc.splitTextToSize(behaviorCommitment, 50);
-            doc.text(behaviorCommitmentLines, 75, y);
-            
-            const behaviorSupportLines = doc.splitTextToSize(behaviorSupport, 50);
-            doc.text(behaviorSupportLines, 135, y);
-            
-            y += Math.max(behaviorCommitmentLines.length * 7, behaviorSupportLines.length * 7, 10) + 10;
-            
-            // Shift in Influence row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Influence", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One professional or systemic action I will take.", 25, y + 5);
-            
-            const influenceCommitmentLines = doc.splitTextToSize(influenceCommitment, 50);
-            doc.text(influenceCommitmentLines, 75, y);
-            
-            const influenceSupportLines = doc.splitTextToSize(influenceSupport, 50);
-            doc.text(influenceSupportLines, 135, y);
-            
-            y += Math.max(influenceCommitmentLines.length * 7, influenceSupportLines.length * 7, 10) + 20;
-            
-            // Add new page if content exceeds page height
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            
-            // Partner Check-In section
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text("Optional Partner Check-In", 20, y);
-            
-            // Partner table headers
-            y += 10;
-            doc.setFillColor(240, 240, 240);
-            doc.rect(20, y, 170, 10, 'F');
-            doc.text("Partner's Name", 25, y + 7);
-            doc.text("My Commitment Shared", 75, y + 7);
-            doc.text("Our Check-in Plan", 135, y + 7);
-            
-            // Get partner values
-            const partnerName = document.getElementById('partner-name').value || "(No partner name entered)";
-            const commitmentShared = document.getElementById('commitment-shared').value || "(No commitment shared)";
-            const checkinPlan = document.getElementById('checkin-plan').value || "(No check-in plan entered)";
-            
-            // Partner table row
-            y += 15;
-            doc.setFont(undefined, 'normal');
-            const partnerNameLines = doc.splitTextToSize(partnerName, 40);
-            doc.text(partnerNameLines, 25, y);
-            
-            const commitmentSharedLines = doc.splitTextToSize(commitmentShared, 40);
-            doc.text(commitmentSharedLines, 75, y);
-            
-            const checkinPlanLines = doc.splitTextToSize(checkinPlan, 40);
-            doc.text(checkinPlanLines, 135, y);
-            
-            y += Math.max(partnerNameLines.length * 7, commitmentSharedLines.length * 7, checkinPlanLines.length * 7, 10) + 20;
-            
-            // Add new page if content exceeds page height
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            
-            // Reflection section
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text("Reflection Prompts", 20, y);
-            
-            y += 10;
-            doc.setFont(undefined, 'normal');
-            doc.text("Consider these questions to deepen your commitment.", 20, y);
-            
-            y += 10;
-            doc.text("• What barriers might I face, and how will I address them?", 25, y);
-            y += 7;
-            doc.text("• What small wins will help me stay motivated?", 25, y);
-            y += 7;
-            doc.text("• How will I celebrate progress?", 25, y);
-            
-            y += 15;
-            const reflectionNotes = document.getElementById('reflection-notes').value || "(No reflections entered)";
-            const reflectionLines = doc.splitTextToSize(reflectionNotes, 170);
-            doc.text("My Reflections:", 20, y);
-            y += 7;
-            doc.text(reflectionLines, 25, y);
-            
-            // Save the PDF
-            doc.save('climate-action-worksheet.pdf');
-            showNotification('Your worksheet has been downloaded as a PDF file!');
-        }
-        
-        function downloadAsWord() {
-            // Get all form values
-            const thinkingCommitment = document.getElementById('thinking-commitment').value || "(No commitment entered)";
-            const thinkingSupport = document.getElementById('thinking-support').value || "(No support plan entered)";
-            const behaviorCommitment = document.getElementById('behavior-commitment').value || "(No commitment entered)";
-            const behaviorSupport = document.getElementById('behavior-support').value || "(No support plan entered)";
-            const influenceCommitment = document.getElementById('influence-commitment').value || "(No commitment entered)";
-            const influenceSupport = document.getElementById('influence-support').value || "(No support plan entered)";
-            const partnerName = document.getElementById('partner-name').value || "(No partner name entered)";
-            const commitmentShared = document.getElementById('commitment-shared').value || "(No commitment shared)";
-            const checkinPlan = document.getElementById('checkin-plan').value || "(No check-in plan entered)";
-            const reflectionNotes = document.getElementById('reflection-notes').value || "(No reflections entered)";
-            
-            // Create Word document content
-            const content = `
-            <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-            <head>
-                <meta charset="utf-8">
-                <title>Climate Action Worksheet</title>
-                <style>
-                    body { font-family: Arial, sans-serif; }
-                    h1 { color: #232121; text-align: center; }
-                    h2 { color: #232121; border-bottom: 2px solid #e31c79; padding-bottom: 5px; }
-                    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                    th { background-color: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #e31c79; }
-                    td { padding: 10px; vertical-align: top; border-bottom: 1px solid #dee2e6; }
-                    .area-title { font-weight: bold; }
-                    .area-desc { font-style: italic; font-size: 0.9em; }
-                    ul { padding-left: 20px; }
-                    li { margin-bottom: 5px; }
-                </style>
-            </head>
-            <body>
-                <h1>Steps Toward Gender-Just Climate Action</h1>
-                <h2>Action Planning & Accountability Worksheet</h2>
-                
-                <h2>Commitment Areas</h2>
-                <table>
-                    <tr>
-                        <th width="20%">Area of Shift</th>
-                        <th width="40%">My Commitment</th>
-                        <th width="40%">Support & Accountability</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="area-title">Shift in Thinking</div>
-                            <div class="area-desc">One belief, assumption, or mindset I will rethink.</div>
-                        </td>
-                        <td>${thinkingCommitment}</td>
-                        <td>${thinkingSupport}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="area-title">Shift in Behavior</div>
-                            <div class="area-desc">One personal habit I will change.</div>
-                        </td>
-                        <td>${behaviorCommitment}</td>
-                        <td>${behaviorSupport}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="area-title">Shift in Influence</div>
-                            <div class="area-desc">One professional or systemic action I will take.</div>
-                        </td>
-                        <td>${influenceCommitment}</td>
-                        <td>${influenceSupport}</td>
-                    </tr>
-                </table>
-                
-                <h2>Optional Partner Check-In</h2>
-                <table>
-                    <tr>
-                        <th width="20%">Partner's Name</th>
-                        <th width="40%">My Commitment Shared</th>
-                        <th width="40%">Our Check-in Plan</th>
-                    </tr>
-                    <tr>
-                        <td>${partnerName}</td>
-                        <td>${commitmentShared}</td>
-                        <td>${checkinPlan}</td>
-                    </tr>
-                </table>
-                
-                <h2>Reflection Prompts</h2>
-                <p>Consider these questions to deepen your commitment.</p>
-                <ul>
-                    <li>What barriers might I face, and how will I address them?</li>
-                    <li>What small wins will help me stay motivated?</li>
-                    <li>How will I celebrate progress?</li>
-                </ul>
-                
-                <h3>My Reflections:</h3>
-                <p>${reflectionNotes}</p>
-            </body>
-            </html>
-            `;
-            
-            // Create Blob and download
-            const blob = new Blob([content], { type: 'application/msword' });
-            saveAs(blob, 'climate-action-worksheet.doc');
+            // Save the document
+            doc.save('gender-just-climate-action-worksheet.docx');
             showNotification('Your worksheet has been downloaded as a Word document!');
         }
-        
-        // Custom Modal Functionality
-        const calendarModal = document.getElementById('calendar-modal');
-        const modalClose = document.getElementById('modal-close');
-        const modalCancel = document.getElementById('modal-cancel');
-        const modalConfirm = document.getElementById('modal-confirm');
-        
-        // Set default date to today and time to current time + 1 hour
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        
-        const formattedDate = tomorrow.toISOString().split('T')[0];
-        let hours = today.getHours() + 1;
-        if (hours > 23) hours = 0;
-        const formattedTime = `${hours.toString().padStart(2, '0')}:00`;
-        
-        document.getElementById('event-date').value = formattedDate;
-        document.getElementById('event-time').value = formattedTime;
-        
-        // Open modal when calendar button is clicked
-        document.getElementById('create-calendar-btn').addEventListener('click', function() {
-            calendarModal.classList.add('active');
-        });
-        
-        // Close modal when close button is clicked
-        modalClose.addEventListener('click', function() {
-            calendarModal.classList.remove('active');
-        });
-        
-        // Close modal when cancel button is clicked
-        modalCancel.addEventListener('click', function() {
-            calendarModal.classList.remove('active');
-        });
-        
-        // Handle form submission
-        modalConfirm.addEventListener('click', function() {
-            const eventDate = document.getElementById('event-date').value;
-            const eventTime = document.getElementById('event-time').value;
-            
-            if (!eventDate || !eventTime) {
-                alert("Please provide both date and time for the calendar event.");
-                return;
-            }
-            
-            createCalendarEvent(eventDate, eventTime);
-            calendarModal.classList.remove('active');
-        });
-        
-        // Close modal when clicking outside
-        calendarModal.addEventListener('click', function(e) {
-            if (e.target === calendarModal) {
-                calendarModal.classList.remove('active');
-            }
-        });
-        
-        function createCalendarEvent(eventDate, eventTime) {
-            // Collect form data
-            const partnerName = document.getElementById('partner-name').value.trim() || 'Partner';
-            const commitmentShared = document.getElementById('commitment-shared').value.trim() || 'Climate action commitment';
-            const checkinPlan = document.getElementById('checkin-plan').value.trim() || 'Check-in discussion';
-            
-            // Format Google Calendar quick add URL
-            const startTime = `${eventDate}T${eventTime}:00`;
-            const endTime = `${eventDate}T${parseInt(eventTime.split(':')[0])+1}:${eventTime.split(':')[1]}:00`;
-            
-            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
-                `&text=Climate+Action+Check-in+with+${encodeURIComponent(partnerName)}` +
-                `&details=Checking+in+on+our+commitment:+${encodeURIComponent(commitmentShared)}.%0A` +
-                `Meeting+plan:+${encodeURIComponent(checkinPlan)}` +
-                `&dates=${startTime.replace(/-/g, '')}/${endTime.replace(/-/g, '')}`;
-            
-            // Open in new tab
-            window.open(calendarUrl, '_blank');
-            
-            showNotification('Calendar event created! Please review and save the event in Google Calendar.');
-        }
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
     </script>
 </body>
 </html>
