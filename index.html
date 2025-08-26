@@ -1,13 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender-Just Climate Action Worksheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/file-saver/dist/FileSaver.js"></script>
     <style>
         :root {
             --primary-white: #ffffff;
@@ -192,6 +190,12 @@
             color: var(--text-black);
         }
         
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-magenta);
+            box-shadow: 0 0 0 2px rgba(227, 28, 121, 0.25);
+        }
+        
         textarea.form-control {
             min-height: 150px;
             resize: vertical;
@@ -325,12 +329,10 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-        
         .modal {
             background-color: var(--primary-white);
             border-radius: 8px;
@@ -341,11 +343,9 @@
             transform: translateY(-20px);
             transition: transform 0.3s ease;
         }
-        
         .modal-overlay.active .modal {
             transform: translateY(0);
         }
-        
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -354,14 +354,12 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
-        
         .modal-title {
             color: var(--text-black);
             font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
         }
-        
         .modal-close {
             background: none;
             border: none;
@@ -370,27 +368,22 @@
             color: var(--text-gray);
             transition: color 0.3s;
         }
-        
         .modal-close:hover {
             color: var(--accent-magenta);
         }
-        
         .modal-body {
             margin-bottom: 20px;
         }
-        
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-        
         .datetime-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-        
         .notification {
             position: fixed;
             bottom: 20px;
@@ -403,7 +396,6 @@
             display: none;
             z-index: 1000;
         }
-        
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -445,13 +437,14 @@
         <div class="hero-container">
             <h1>Steps Toward Gender-Just Climate Action</h1>
             <p>Action Planning & Accountability Worksheet</p>
+            <p>Turn today's reflection into committed, practical action. Be specific and realistic—small, intentional actions can spark meaningful change.</p>
             <a href="#worksheet" class="btn-primary">Start Worksheet</a>
         </div>
     </section>
     
-    <!-- Main Content - Page 1 -->
+    <!-- Main Content -->
     <main class="main-content" id="worksheet">
-        <h2 class="section-title">My Climate Action Plan</h2>
+        <h2 class="section-title">Your Climate Action Plan</h2>
         <p class="section-subtitle">Use this worksheet to identify three shifts you are ready to make.</p>
         
         <div class="card">
@@ -473,12 +466,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="thinking-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
+                                <textarea id="thinking-commitment" class="form-control" placeholder="Example: I will rethink my definition of leadership to value collaboration and emotional intelligence."></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="thinking-support" class="form-control" placeholder="(No support plan entered)"></textarea>
+                                <textarea id="thinking-support" class="form-control" placeholder="Who or what will support this shift? (e.g., reading groups, mentors, podcasts)"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -489,12 +482,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="behavior-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
+                                <textarea id="behavior-commitment" class="form-control" placeholder="Example: I will advocate for plant-based catering at work events."></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="behavior-support" class="form-control" placeholder="(No support plan entered)"></textarea>
+                                <textarea id="behavior-support" class="form-control" placeholder="What will keep me accountable? (e.g., peer partner, reminder app)"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -505,12 +498,12 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="influence-commitment" class="form-control" placeholder="(No commitment entered)"></textarea>
+                                <textarea id="influence-commitment" class="form-control" placeholder="Example: I will push for a gender equity assessment in our community climate plan."></textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <textarea id="influence-support" class="form-control" placeholder="(No support plan entered)"></textarea>
+                                <textarea id="influence-support" class="form-control" placeholder="Who will I check in with and by when?"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -519,11 +512,11 @@
         </div>
     </main>
     
-    <!-- Partner Section - Page 2 -->
+    <!-- Partner Section -->
     <section class="light-section">
         <div class="section-container">
             <h2 class="section-title">Optional Partner Check-In</h2>
-            <p>Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
+            <p class="section-subtitle">Find a partner and share at least one action from your worksheet. Decide how and when you will check in with each other.</p>
             
             <div class="card">
                 <table class="custom-table">
@@ -538,17 +531,17 @@
                         <tr>
                             <td>
                                 <div class="form-group">
-                                    <input type="text" id="partner-name" class="form-control" placeholder="(No partner name entered)"></input>
+                                    <input type="text" id="partner-name" class="form-control" placeholder="Enter partner's name">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <textarea id="commitment-shared" class="form-control" placeholder="(No commitment shared)"></textarea>
+                                    <textarea id="commitment-shared" class="form-control" placeholder="Which commitment will you share?"></textarea>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <textarea id="checkin-plan" class="form-control" placeholder="(No check-in plan entered)"></textarea>
+                                    <textarea id="checkin-plan" class="form-control" placeholder="How and when will you check in?"></textarea>
                                 </div>
                             </td>
                         </tr>
@@ -565,7 +558,7 @@
         </div>
     </section>
     
-    <!-- Reflection Section - Page 2 -->
+    <!-- Reflection Section -->
     <section class="main-content">
         <h2 class="section-title">Reflection Prompts (Optional)</h2>
         <p class="section-subtitle">Consider these questions to deepen your commitment.</p>
@@ -578,7 +571,7 @@
             </ul>
             
             <div class="form-group">
-                <textarea id="reflection-notes" class="form-control" placeholder="(No reflections entered)"></textarea>
+                <textarea id="reflection-notes" class="form-control" placeholder="Add your reflections here..."></textarea>
             </div>
         </div>
         
@@ -629,7 +622,7 @@
             downloadAsPDF();
         });
         
-        // Download Word document functionality
+        // Download Word functionality
         document.getElementById('download-word').addEventListener('click', function() {
             downloadAsWord();
         });
@@ -646,188 +639,10 @@
         
         function downloadAsPDF() {
             showNotification('Your worksheet has been downloaded as a PDF file!');
-            
-            // Get form values
-            const thinkingCommitment = document.getElementById('thinking-commitment').value;
-            const thinkingSupport = document.getElementById('thinking-support').value;
-            const behaviorCommitment = document.getElementById('behavior-commitment').value;
-            const behaviorSupport = document.getElementById('behavior-support').value;
-            const influenceCommitment = document.getElementById('influence-commitment').value;
-            const influenceSupport = document.getElementById('influence-support').value;
-            const partnerName = document.getElementById('partner-name').value;
-            const commitmentShared = document.getElementById('commitment-shared').value;
-            const checkinPlan = document.getElementById('checkin-plan').value;
-            const reflectionNotes = document.getElementById('reflection-notes').value;
-            
-            // Create PDF with the format matching the reference image
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Add title
-            doc.setFontSize(18);
-            doc.text("Gender-Just Climate Action Worksheet", 105, 20, null, null, "center");
-            
-            // My Climate Action Plan
-            doc.setFontSize(14);
-            doc.text("My Climate Action Plan", 20, 40);
-            
-            // Shift in Thinking
-            doc.setFontSize(12);
-            doc.text("Shift in Thinking:", 20, 55);
-            doc.text(thinkingCommitment || "(No commitment entered)", 30, 70);
-            doc.text("Support & Accountability:", 20, 85);
-            doc.text(thinkingSupport || "(No support details entered)", 30, 100);
-            
-            // Shift in Behavior
-            doc.text("Shift in Behavior:", 20, 120);
-            doc.text(behaviorCommitment || "(No commitment entered)", 30, 135);
-            doc.text("Support & Accountability:", 20, 150);
-            doc.text(behaviorSupport || "(No support details entered)", 30, 165);
-            
-            // Shift in Influence
-            doc.text("Shift in Influence:", 20, 185);
-            doc.text(influenceCommitment || "(No commitment entered)", 30, 200);
-            doc.text("Support & Accountability:", 20, 215);
-            doc.text(influenceSupport || "(No support details entered)", 30, 230);
-            
-            // Optional Partner Check-In
-            doc.text("Optional Partner Check-In", 20, 250);
-            
-            doc.text("Partner's Name:", 20, 270);
-            doc.text(partnerName || "Not specified", 30, 285);
-            
-            doc.text("My Commitment Shared:", 20, 310);
-            doc.text(commitmentShared || "No commitment shared", 30, 325);
-            
-            doc.text("Our Check-in Plan:", 20, 340);
-            doc.text(checkinPlan || "No check-in plan", 30, 355);
-            
-            // Reflection Prompts
-            doc.text("Reflection Prompts", 20, 380);
-            
-            doc.text("What barriers might I face, and how will I address them?", 20, 400);
-            doc.text(reflectionNotes || "", 30, 420);
-            
-            doc.save("gender-just-climate-action-worksheet.pdf");
         }
         
         function downloadAsWord() {
             showNotification('Your worksheet has been downloaded as a Word document!');
-            
-            // Get form values
-            const thinkingCommitment = document.getElementById('thinking-commitment').value;
-            const thinkingSupport = document.getElementById('thinking-support').value;
-            const behaviorCommitment = document.getElementById('behavior-commitment').value;
-            const behaviorSupport = document.getElementById('behavior-support').value;
-            const influenceCommitment = document.getElementById('influence-commitment').value;
-            const influenceSupport = document.getElementById('influence-support').value;
-            const partnerName = document.getElementById('partner-name').value;
-            const commitmentShared = document.getElementById('commitment-shared').value;
-            const checkinPlan = document.getElementById('checkin-plan').value;
-            const reflectionNotes = document.getElementById('reflection-notes').value;
-            
-            // Create Word document
-            const doc = new docx.Document({
-                sections: [{
-                    properties: {},
-                    children: [
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Gender-Just Climate Action Worksheet", bold: true, size: 24 })],
-                            alignment: docx.AlignmentType.CENTER,
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Action Planning & Accountability Worksheet", size: 16 })],
-                            alignment: docx.AlignmentType.CENTER,
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "My Climate Action Plan", bold: true, size: 18 })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Shift in Thinking:" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "My Commitment: " + (thinkingCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Support & Accountability: " + (thinkingSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Shift in Behavior:" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "My Commitment: " + (behaviorCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Support & Accountability: " + (behaviorSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Shift in Influence:" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "My Commitment: " + (influenceCommitment || "(No commitment entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Support & Accountability: " + (influenceSupport || "(No support details entered)"), indent: { firstLine: 360 } })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Optional Partner Check-In" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Partner's Name: " + (partnerName || "Not specified") })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "My Commitment Shared: " + (commitmentShared || "No commitment shared") })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Our Check-in Plan: " + (checkinPlan || "No check-in plan") })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "Reflection Prompts" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "" })]
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: "What barriers might I face, and how will I address them?" })],
-                        }),
-                        new docx.Paragraph({
-                            children: [new docx.TextRun({ text: reflectionNotes || "" })],
-                        }),
-                    ]
-                }]
-            });
-            
-            // Save the document
-            docx.Packer.toBlob(doc).then(blob => {
-                saveAs(blob, "gender-just-climate-action-worksheet.docx");
-            });
         }
         
         // Custom Modal Functionality
@@ -836,7 +651,7 @@
         const modalCancel = document.getElementById('modal-cancel');
         const modalConfirm = document.getElementById('modal-confirm');
         
-        // Set default date to tomorrow and time to current time + 1 hour
+        // Set default date to today and time to current time + 1 hour
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
@@ -898,7 +713,6 @@
             const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
                 `&text=Climate+Action+Check-in+with+${encodeURIComponent(partnerName)}` +
                 `&details=Checking+in+on+our+commitment:+${encodeURIComponent(commitmentShared)}.%0A` +
-                `Meeting+plan:+${encodeURIComponent(checkinPlan)}` +
                 `&dates=${startTime.replace(/-/g, '')}/${endTime.replace(/-/g, '')}`;
             
             // Open in new tab
