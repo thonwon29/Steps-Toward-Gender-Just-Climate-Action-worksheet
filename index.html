@@ -6,6 +6,7 @@
     <title>Gender-Just Climate Action Worksheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         :root {
@@ -674,18 +675,6 @@
             doc.setFont(undefined, 'normal');
             doc.text("Action Planning & Accountability Worksheet", 105, 30, { align: 'center' });
             
-            // Add commitment areas table
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text("Commitment Areas", 20, 50);
-            
-            // Table headers
-            doc.setFillColor(240, 240, 240);
-            doc.rect(20, 60, 170, 10, 'F');
-            doc.text("Area of Shift", 25, 67);
-            doc.text("My Commitment", 75, 67);
-            doc.text("Support & Accountability", 135, 67);
-            
             // Get form values
             const thinkingCommitment = document.getElementById('thinking-commitment').value || "(No commitment entered)";
             const thinkingSupport = document.getElementById('thinking-support').value || "(No support plan entered)";
@@ -693,119 +682,112 @@
             const behaviorSupport = document.getElementById('behavior-support').value || "(No support plan entered)";
             const influenceCommitment = document.getElementById('influence-commitment').value || "(No commitment entered)";
             const influenceSupport = document.getElementById('influence-support').value || "(No support plan entered)";
-            
-            // Table rows
-            let y = 80;
-            
-            // Shift in Thinking row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Thinking", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One belief, assumption, or mindset I will rethink.", 25, y + 5);
-            
-            doc.setFont(undefined, 'normal');
-            const thinkingCommitmentLines = doc.splitTextToSize(thinkingCommitment, 50);
-            doc.text(thinkingCommitmentLines, 75, y);
-            
-            const thinkingSupportLines = doc.splitTextToSize(thinkingSupport, 50);
-            doc.text(thinkingSupportLines, 135, y);
-            
-            y += Math.max(thinkingCommitmentLines.length * 7, thinkingSupportLines.length * 7, 10) + 10;
-            
-            // Shift in Behavior row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Behavior", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One personal habit I will change.", 25, y + 5);
-            
-            const behaviorCommitmentLines = doc.splitTextToSize(behaviorCommitment, 50);
-            doc.text(behaviorCommitmentLines, 75, y);
-            
-            const behaviorSupportLines = doc.splitTextToSize(behaviorSupport, 50);
-            doc.text(behaviorSupportLines, 135, y);
-            
-            y += Math.max(behaviorCommitmentLines.length * 7, behaviorSupportLines.length * 7, 10) + 10;
-            
-            // Shift in Influence row
-            doc.setFont(undefined, 'bold');
-            doc.text("Shift in Influence", 25, y);
-            doc.setFont(undefined, 'normal');
-            doc.text("One professional or systemic action I will take.", 25, y + 5);
-            
-            const influenceCommitmentLines = doc.splitTextToSize(influenceCommitment, 50);
-            doc.text(influenceCommitmentLines, 75, y);
-            
-            const influenceSupportLines = doc.splitTextToSize(influenceSupport, 50);
-            doc.text(influenceSupportLines, 135, y);
-            
-            y += Math.max(influenceCommitmentLines.length * 7, influenceSupportLines.length * 7, 10) + 20;
-            
-            // Add new page if content exceeds page height
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            
-            // Partner Check-In section
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text("Optional Partner Check-In", 20, y);
-            
-            // Partner table headers
-            y += 10;
-            doc.setFillColor(240, 240, 240);
-            doc.rect(20, y, 170, 10, 'F');
-            doc.text("Partner's Name", 25, y + 7);
-            doc.text("My Commitment Shared", 75, y + 7);
-            doc.text("Our Check-in Plan", 135, y + 7);
-            
-            // Get partner values
             const partnerName = document.getElementById('partner-name').value || "(No partner name entered)";
             const commitmentShared = document.getElementById('commitment-shared').value || "(No commitment shared)";
             const checkinPlan = document.getElementById('checkin-plan').value || "(No check-in plan entered)";
+            const reflectionNotes = document.getElementById('reflection-notes').value || "(No reflections entered)";
             
-            // Partner table row
-            y += 15;
-            doc.setFont(undefined, 'normal');
-            const partnerNameLines = doc.splitTextToSize(partnerName, 40);
-            doc.text(partnerNameLines, 25, y);
+            // Create Commitment Areas table using autoTable
+            doc.autoTable({
+                startY: 40,
+                head: [['Area of Shift', 'My Commitment', 'Support & Accountability']],
+                body: [
+                    [
+                        { content: 'Shift in Thinking\nOne belief, assumption, or mindset I will rethink.', styles: { fontStyle: 'bold' } },
+                        thinkingCommitment,
+                        thinkingSupport
+                    ],
+                    [
+                        { content: 'Shift in Behavior\nOne personal habit I will change.', styles: { fontStyle: 'bold' } },
+                        behaviorCommitment,
+                        behaviorSupport
+                    ],
+                    [
+                        { content: 'Shift in Influence\nOne professional or systemic action I will take.', styles: { fontStyle: 'bold' } },
+                        influenceCommitment,
+                        influenceSupport
+                    ]
+                ],
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [240, 240, 240],
+                    textColor: [0, 0, 0],
+                    fontStyle: 'bold'
+                },
+                styles: {
+                    cellPadding: 3,
+                    fontSize: 10,
+                    valign: 'top'
+                },
+                columnStyles: {
+                    0: { cellWidth: 40, fontStyle: 'bold' },
+                    1: { cellWidth: 75 },
+                    2: { cellWidth: 75 }
+                }
+            });
             
-            const commitmentSharedLines = doc.splitTextToSize(commitmentShared, 40);
-            doc.text(commitmentSharedLines, 75, y);
+            // Get the Y position after the first table
+            let finalY = doc.lastAutoTable.finalY + 15;
             
-            const checkinPlanLines = doc.splitTextToSize(checkinPlan, 40);
-            doc.text(checkinPlanLines, 135, y);
-            
-            y += Math.max(partnerNameLines.length * 7, commitmentSharedLines.length * 7, checkinPlanLines.length * 7, 10) + 20;
-            
-            // Add new page if content exceeds page height
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            
-            // Reflection section
+            // Add Partner Check-In section title
             doc.setFontSize(14);
             doc.setFont(undefined, 'bold');
-            doc.text("Reflection Prompts", 20, y);
+            doc.text("Optional Partner Check-In", 14, finalY);
+            finalY += 10;
             
-            y += 10;
+            // Create Partner Check-In table using autoTable
+            doc.autoTable({
+                startY: finalY,
+                head: [["Partner's Name", "My Commitment Shared", "Our Check-in Plan"]],
+                body: [
+                    [partnerName, commitmentShared, checkinPlan]
+                ],
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [240, 240, 240],
+                    textColor: [0, 0, 0],
+                    fontStyle: 'bold'
+                },
+                styles: {
+                    cellPadding: 3,
+                    fontSize: 10,
+                    valign: 'top'
+                },
+                columnStyles: {
+                    0: { cellWidth: 40 },
+                    1: { cellWidth: 75 },
+                    2: { cellWidth: 75 }
+                }
+            });
+            
+            // Get the Y position after the second table
+            finalY = doc.lastAutoTable.finalY + 15;
+            
+            // Add Reflection section title
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text("Reflection Prompts", 14, finalY);
+            finalY += 7;
+            
+            // Add reflection prompts
+            doc.setFontSize(10);
             doc.setFont(undefined, 'normal');
-            doc.text("Consider these questions to deepen your commitment.", 20, y);
+            doc.text("Consider these questions to deepen your commitment:", 14, finalY);
+            finalY += 7;
+            doc.text("• What barriers might I face, and how will I address them?", 20, finalY);
+            finalY += 5;
+            doc.text("• What small wins will help me stay motivated?", 20, finalY);
+            finalY += 5;
+            doc.text("• How will I celebrate progress?", 20, finalY);
+            finalY += 10;
             
-            y += 10;
-            doc.text("• What barriers might I face, and how will I address them?", 25, y);
-            y += 7;
-            doc.text("• What small wins will help me stay motivated?", 25, y);
-            y += 7;
-            doc.text("• How will I celebrate progress?", 25, y);
-            
-            y += 15;
-            const reflectionNotes = document.getElementById('reflection-notes').value || "(No reflections entered)";
-            const reflectionLines = doc.splitTextToSize(reflectionNotes, 170);
-            doc.text("My Reflections:", 20, y);
-            y += 7;
-            doc.text(reflectionLines, 25, y);
+            // Add reflection notes
+            doc.setFont(undefined, 'bold');
+            doc.text("My Reflections:", 14, finalY);
+            finalY += 7;
+            doc.setFont(undefined, 'normal');
+            const reflectionLines = doc.splitTextToSize(reflectionNotes, 180);
+            doc.text(reflectionLines, 20, finalY);
             
             // Save the PDF
             doc.save('climate-action-worksheet.pdf');
